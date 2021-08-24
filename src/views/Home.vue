@@ -10,25 +10,42 @@
             src="https://images.unsplash.com/photo-1460925895917-afdab827c52f"
             gradient="to top left, rgba(0, 106, 255,.3), rgba(0, 0, 0,.8)"
           >
-            <p
-              :class="
-                $vuetify.breakpoint.mobile
-                  ? 'slogan-size-mobile'
-                  : 'slogan-size'
-              "
-              class="slogan"
-            >
-              Etalonner de manière toujours plus innovante et efficace
-            </p>
-            <p class="slogan subtitle-slogan">
+            <v-row align="center">
+              <v-col cols="12" md="9">
+                <p
+                  :class="
+                    $vuetify.breakpoint.mobile
+                      ? 'slogan-size-mobile'
+                      : 'slogan-size'
+                  "
+                  :style="$vuetify.breakpoint.smAndDown ? 'margin-top: 100px;' : ''"
+                  class="slogan"
+                >
+                  Qualité maîtrise et fiabilité...
+                </p>
+                <v-card
+                  height="4"
+                  :width="hover ? '300' : '17'"
+                  class="ma-auto white smooth-transaction yellow darken-3"
+                  flat
+                ></v-card>
+              </v-col>
+
+              <v-col cols="12" md="3" class="ma-auto">
+                <v-card class="transparent ma-auto" tile flat>
+                  <v-img
+                    :class="$vuetify.breakpoint.smAndDown ? 'ma-auto' : ''"
+                    contain
+                    height="200"
+                    width="200"
+                    src="https://lh3.googleusercontent.com/proxy/Ae5BPI9jMwwUl5kfpo8DVC-oy2iBJ-4DO887-vDVdmfo6e2UVKyzEwivA7KWgi_aYIrOg4L-NeMdL2881OMzhYTN_55Uqg6CW_5k8bAjoz1ml3XGDY9xg7-GFLINS7w"
+                  />
+                </v-card>
+              </v-col>
+            </v-row>
+            <p v-if="false" class="slogan subtitle-slogan">
               Découvrez de meilleures manières d’étalonner
             </p>
-            <v-card
-              height="4"
-              :width="hover ? '300' : '17'"
-              class="ma-auto white smooth-transaction yellow darken-3"
-              flat
-            ></v-card>
           </v-img>
         </v-card>
       </v-hover>
@@ -40,7 +57,10 @@
       <h1 class="text-center text-decoration-underline title-partnaires">
         Nos partnaires
       </h1>
-      <v-slide-group class="pa-4" :show-arrows="$vuetify.breakpoint.xs ? false : true">
+      <v-slide-group
+        class="pa-4"
+        :show-arrows="$vuetify.breakpoint.xs ? false : true"
+      >
         <v-slide-item
           cycle
           v-for="partnaire in partnaires"
@@ -68,8 +88,17 @@
         :key="i"
         :src="slide.url"
       >
-        <v-sheet class="transparent d-flex justify-center align-center" dark height="100%" width="100%">
-          <v-sheet class="d-flex justify-center align-center carrousel-text-background" height="50" width="100%">
+        <v-sheet
+          class="transparent d-flex justify-center align-center"
+          dark
+          height="100%"
+          width="100%"
+        >
+          <v-sheet
+            class="d-flex justify-center align-center carrousel-text-background"
+            height="50"
+            width="100%"
+          >
             <span>{{ slide.title }}</span>
           </v-sheet>
         </v-sheet>
@@ -83,8 +112,27 @@
       <h1 class="text-decoration-underline title-partnaires mb-5">
         Metrotec Algerie
       </h1>
+      <v-card class="transparent my-5" flat>
+        <v-img
+          class="mx-auto"
+          width="350"
+          src="https://lh3.googleusercontent.com/proxy/Ae5BPI9jMwwUl5kfpo8DVC-oy2iBJ-4DO887-vDVdmfo6e2UVKyzEwivA7KWgi_aYIrOg4L-NeMdL2881OMzhYTN_55Uqg6CW_5k8bAjoz1ml3XGDY9xg7-GFLINS7w"
+        />
+      </v-card>
       <v-card class="ma-auto" flat width="80%">
-        <span>Lorem ipsum dolor sit amet consectetur <strong>selit</strong>. Laborum cupiditate, minima sit soluta explicabo exercitationem ipsam vel esse labore aut nesciunt, quo iusto deleniti necessitatibus veritatis libero dignissimos adipisci sed. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Fuga sed hic suscipit possimus consectetur sit facilis laudantium architecto eaque officiis? Voluptatibus, asperiores. Quaerat unde obcaecati, error praesentium a iste assumenda! Lorem ipsum dolor sit amet consectetur, adipisicing elit. Natus, animi totam repellendus quam, commodi tempore libero praesentium odit non, harum error in eaque temporibus doloremque minus voluptatem exercitationem laudantium possimus!</span>
+        <span
+          >Lorem ipsum dolor sit amet consectetur <strong>selit</strong>.
+          Laborum cupiditate, minima sit soluta explicabo exercitationem ipsam
+          vel esse labore aut nesciunt, quo iusto deleniti necessitatibus
+          veritatis libero dignissimos adipisci sed. Lorem, ipsum dolor sit amet
+          consectetur adipisicing elit. Fuga sed hic suscipit possimus
+          consectetur sit facilis laudantium architecto eaque officiis?
+          Voluptatibus, asperiores. Quaerat unde obcaecati, error praesentium a
+          iste assumenda! Lorem ipsum dolor sit amet consectetur, adipisicing
+          elit. Natus, animi totam repellendus quam, commodi tempore libero
+          praesentium odit non, harum error in eaque temporibus doloremque minus
+          voluptatem exercitationem laudantium possimus!</span
+        >
       </v-card>
     </v-container>
   </v-container>
@@ -98,28 +146,34 @@ export default {
       model: 0,
       activiteSlides: [
         {
-          title: 'Contrôle technique APV/APG/APL/APE',
-          url: 'https://images.unsplash.com/photo-1579154204845-5d7f8d4dc785?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80',
+          title: "Contrôle technique APV/APG/APL/APE",
+          url:
+            "https://images.unsplash.com/photo-1579154204845-5d7f8d4dc785?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80",
         },
         {
-          title: 'Etalonnage et Tarage soupapes',
-          url: 'https://images.unsplash.com/photo-1581087724844-037b13e16b0b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=334&q=80',
+          title: "Etalonnage et Tarage soupapes",
+          url:
+            "https://images.unsplash.com/photo-1581087724844-037b13e16b0b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=334&q=80",
         },
         {
-          title: 'Contrôle Non Destructif',
-          url: 'https://images.unsplash.com/photo-1531935015902-64b87c1f4da5?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=376&q=80',
+          title: "Contrôle Non Destructif",
+          url:
+            "https://images.unsplash.com/photo-1531935015902-64b87c1f4da5?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=376&q=80",
         },
         {
           title: "Etude d'impact sur l'environnement PSI-EDD",
-          url: 'https://images.unsplash.com/photo-1578496480240-32d3e0c04525?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80',
+          url:
+            "https://images.unsplash.com/photo-1578496480240-32d3e0c04525?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80",
         },
         {
-          title: 'Expertise maritimes et industrielles',
-          url: 'https://images.unsplash.com/photo-1615906655593-ad0386982a0f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80'
+          title: "Expertise maritimes et industrielles",
+          url:
+            "https://images.unsplash.com/photo-1615906655593-ad0386982a0f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80",
         },
         {
-          title: 'Accompagnement et Formations',
-          url: 'https://images.unsplash.com/photo-1621463678002-1a7d3c9224f7?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80',
+          title: "Accompagnement et Formations",
+          url:
+            "https://images.unsplash.com/photo-1621463678002-1a7d3c9224f7?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80",
         },
       ],
       partnaires: [
