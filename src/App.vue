@@ -51,6 +51,7 @@
           </router-link>
         </v-card>
       </v-card>
+
       <v-bottom-navigation
         :background-color="color"
         v-model="modelBottomNavigation"
@@ -107,7 +108,7 @@
 
           <v-list>
             <v-list-item v-for="(item, index) in items" :key="index" link>
-              <v-list-item-title @click="goToActivitiesMenu(index)">{{
+              <v-list-item-title @click="goToActivitiesMenu(index + 1)">{{
                 item
               }}</v-list-item-title>
             </v-list-item>
@@ -125,9 +126,9 @@
       <!-- -->
 
       <v-footer padless class="mt-9">
-        <v-card flat tile class="white--text text-center" width="100%" id="background-footer">
+        <v-card flat tile class="text-center" width="100%" id="background-footer">
           <!-- src="https://www.beamex.com/wp-content/uploads/2017/05/footerbg-1600x816.jpg" -->
-            <v-card class="transparent" tile elevation="0">
+            <v-card class="transparent grey--text text--darken-4" tile elevation="0">
               <router-link to="/">
                   <v-card
                     class="transparent mx-auto mt-9 pa-3"
@@ -141,8 +142,8 @@
                     />
                   </v-card>
               </router-link>
-              <p style="font-size: 20px" class="mt-5">
-                Nous existons pour fournir de meilleurs moyens de calibrer.
+              <p style="font-size: 20px" class="ml-4 mt-5">
+                Qualité maîtrise et fiabilité...
               </p>
             </v-card>
 
@@ -152,7 +153,7 @@
               <v-btn
                 v-for="icon in icons"
                 :key="icon.name"
-                class="mx-4 white--text"
+                class="mx-4 grey--text text--darken-2"
                 icon
                 plain
               >
@@ -164,10 +165,10 @@
               </v-btn>
             </v-card-text>
 
-            <v-row >
+            <v-row class="grey--text text--darken-4 ma-0">
               <v-hover v-slot="{ hover }">
                 <v-col cols="12" md="4">
-                  <v-card-title class="black--text text-h4">Qui sommes nous ?</v-card-title>
+                  <v-card-title class="text-h4">Qui sommes nous ?</v-card-title>
                   <v-card
                     height="4"
                     :width="hover ? '320' : '50'"
@@ -178,7 +179,7 @@
                   ></v-card>
                     <v-card-text
                       :class="
-                        hover ? 'white--text' : 'black--text text--lighten-1'
+                        hover ? 'grey--text text--darken-4' : 'grey--text text--darken-2'
                       "
                       class="pt-0 text-left"
                     >
@@ -199,7 +200,7 @@
 
               <v-hover v-slot="{ hover }">
                 <v-col cols="12" md="4">
-                  <v-card-title class="black--text text-h4">Nos services</v-card-title>
+                  <v-card-title class="text-h4">Nos services</v-card-title>
                   <v-card
                     height="4"
                     :width="hover ? '215' : '50'"
@@ -212,7 +213,7 @@
                     v-for="(item, index) in items"
                     :key="index"
                     :class="
-                      hover ? 'white--text' : 'black--text text--lighten-1'
+                      hover ? 'grey--text text--darken-4' : 'grey--text text--darken-2'
                     "
                     class="pt-0 text-left"
                   >
@@ -223,7 +224,7 @@
 
               <v-hover v-slot="{ hover }">
                 <v-col cols="12" md="4">
-                  <v-card-title class="black--text text-h4">Nous contacter</v-card-title>
+                  <v-card-title class="text-h4">Nous contacter</v-card-title>
                   <v-card
                     height="4"
                     :width="hover ? '255' : '50'"
@@ -234,7 +235,7 @@
                   ></v-card>
                   <v-card-text
                     :class="
-                      hover ? 'white--text' : 'black--text text--lighten-1'
+                      hover ? 'grey--text text--darken-4' : 'grey--text text--darken-2'
                     "
                     class="pt-0 text-left"
                   >
@@ -328,6 +329,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 export default {
   name: "App",
 
@@ -361,6 +363,7 @@ export default {
     modelBottomNavigation: 0,
   }),
   methods: {
+    ...mapActions(['goToActivitiesItem']),
     goToHome() {
       this.$router.replace("/");
     },
@@ -375,7 +378,9 @@ export default {
       this.$router.replace("/activities");
     },
     goToActivitiesMenu(i) {
-      console.log("i = ", i);
+      let url = "/activities/" + i;
+      this.$router.replace(url);
+      
     },
     goToContact() {
       this.$router.replace("/contact");
@@ -422,33 +427,17 @@ export default {
     colorText() {
       switch (this.navBarItemSelected) {
         case 0:
-          return "yellow--text text--darken-3";
+          return "yellow--text text--darken-4";
         case 1:
-          return "teal--text text--lighten-3";
+          return "teal--text";
         case 2:
-          return "brown--text text--lighten-1";
+          return "brown--text";
         case 3:
-          return "indigo--text text--lighten-2";
+          return "indigo--text";
         case 4:
-          return "blue-grey--text text--lighten-2";
+          return "blue-grey--tex";
         default:
           return "blue-grey--text text--lighten-2";
-      }
-    },
-    colorFooter() {
-      switch (this.navBarItemSelected) {
-        case 0:
-          return "yellow darken-2";
-        case 1:
-          return "teal lighten-2";
-        case 2:
-          return "brown lighten-1";
-        case 3:
-          return "indigo lighten-1";
-        case 4:
-          return "blue-grey lighten-1";
-        default:
-          return "blue-grey lighten-1";
       }
     },
   },
@@ -476,16 +465,14 @@ a {
 }
 
 #background-footer {
-  background: no-repeat center/100%
-    url("./assets/white-background.jpeg");
-  transition: all 5s;
+  background: repeat-y top/100% url("./assets/white-background.jpeg");
 }
-
+/*
 #background-footer:hover {
   background: no-repeat center/200%
     url("https://images.unsplash.com/photo-1582738411706-bfc8e691d1c2?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=334&amp;q=80");
 }
-
+*/
 #bottom-navigation-bug-couleur {
   background-color: transparent !important;
   height: inherit !important;

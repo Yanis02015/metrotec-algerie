@@ -38,7 +38,7 @@
                     contain
                     height="200"
                     width="200"
-                    src="https://lh3.googleusercontent.com/proxy/Ae5BPI9jMwwUl5kfpo8DVC-oy2iBJ-4DO887-vDVdmfo6e2UVKyzEwivA7KWgi_aYIrOg4L-NeMdL2881OMzhYTN_55Uqg6CW_5k8bAjoz1ml3XGDY9xg7-GFLINS7w"
+                    :src="urlImageAcrditation"
                   />
                 </v-card>
               </v-col>
@@ -116,7 +116,7 @@
         <v-img
           class="mx-auto"
           width="350"
-          src="https://lh3.googleusercontent.com/proxy/Ae5BPI9jMwwUl5kfpo8DVC-oy2iBJ-4DO887-vDVdmfo6e2UVKyzEwivA7KWgi_aYIrOg4L-NeMdL2881OMzhYTN_55Uqg6CW_5k8bAjoz1ml3XGDY9xg7-GFLINS7w"
+          :src="urlImageAcrditation"
         />
       </v-card>
       <v-card class="ma-auto" flat width="80%">
@@ -135,6 +135,15 @@
         >
       </v-card>
     </v-container>
+
+    <!-- adresse 
+    <v-container fluid class="ma-0 pa-0">
+      <h1 class="text-center text-decoration-underline title-partnaires">
+        Adresse
+      </h1>
+      
+    </v-container>
+    -->
   </v-container>
 </template>
 
@@ -247,6 +256,7 @@ export default {
           url: "https://www.lhybride.info/media/images/iconHP/BHmettler.jpg",
         },
       ],
+      urlImageAcrditation: "https://via.placeholder.com/2480x3508",
     };
   },
 };
