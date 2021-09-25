@@ -324,6 +324,7 @@
             </v-row>
         </v-card>
       </v-footer>
+      
     </v-main>
   </v-app>
 </template>
