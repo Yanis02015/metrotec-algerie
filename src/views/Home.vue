@@ -2,60 +2,109 @@
   <v-container fluid flat class="pa-0 ma-0">
     <v-container fluid class="pa-0">
       <v-hover v-slot="{ hover }">
-        <v-card tile class="ma-0 pa-0">
-          <v-img
-            class="text-center align-center"
-            dark
-            height="450"
-            src="https://images.unsplash.com/photo-1460925895917-afdab827c52f"
-            gradient="to top left, rgba(0, 106, 255,.3), rgba(0, 0, 0,.8)"
-          >
-            <v-row align="center">
-              <v-col cols="12" md="9">
-                <p
-                  :class="
-                    $vuetify.breakpoint.mobile
-                      ? 'slogan-size-mobile'
-                      : 'slogan-size'
-                  "
-                  :style="$vuetify.breakpoint.smAndDown ? 'margin-top: 100px;' : ''"
-                  class="slogan"
+        <v-card flat tile class="ma-0 pa-0">
+          <v-row class="mt-O pt-0" align="stretch">
+            <v-col class="pa-0" height="200%" width="100%" cols="12" md="7">
+              <v-card tile flat height="100%">
+                <v-img
+                  class="text-center align-center"
+                  dark
+                  height="100%"
+                  src="https://images.unsplash.com/photo-1460925895917-afdab827c52f"
+                  gradient="to top left, rgba(0, 106, 255,.3), rgba(0, 0, 0,.8)"
                 >
-                  Qualité maîtrise et fiabilité...
-                </p>
-                <v-card
-                  height="4"
-                  :width="hover ? '300' : '17'"
-                  class="ma-auto white smooth-transaction yellow darken-3"
-                  flat
-                ></v-card>
-              </v-col>
+                  <p
+                    :class="
+                      $vuetify.breakpoint.mobile
+                        ? 'slogan-size-mobile'
+                        : 'slogan-size'
+                    "
+                    :style="
+                      $vuetify.breakpoint.smAndDown ? 'margin-top: 100px;' : ''
+                    "
+                    class="slogan"
+                  >
+                    Qualité maîtrise et fiabilité...
+                  </p>
+                  <v-card
+                    height="4"
+                    :width="hover ? '300' : '17'"
+                    class="ma-auto white smooth-transaction yellow darken-3"
+                    flat
+                  ></v-card>
+                </v-img>
+              </v-card>
+            </v-col>
 
-              <v-col cols="12" md="3" class="ma-auto">
-                <v-card class="transparent ma-auto" tile flat>
-                  <v-img
-                    :class="$vuetify.breakpoint.smAndDown ? 'ma-auto' : ''"
-                    contain
-                    height="200"
-                    width="200"
-                    :src="urlImageAcrditation"
-                  />
-                </v-card>
-              </v-col>
-            </v-row>
-            <p v-if="false" class="slogan subtitle-slogan">
-              Découvrez de meilleures manières d’étalonner
-            </p>
-          </v-img>
+            <v-col cols="12" md="5" class="pa-0">
+              <v-card
+                :style="$vuetify.breakpoint.smAndDown ? 'height: 400px;' : ''"
+                class="transparent ma-auto"
+                tile
+                flat
+              >
+                <v-img
+                  :class="$vuetify.breakpoint.smAndDown ? 'ma-auto' : ''"
+                  height="100%"
+                  :width="$vuetify.breakpoint.mdAndUp ? '100%' : '100%'"
+                  :src="urlImageAcrditation"
+                />
+              </v-card>
+            </v-col>
+          </v-row>
+          <p v-if="false" class="slogan subtitle-slogan">
+            Découvrez de meilleures manières d’étalonner
+          </p>
         </v-card>
       </v-hover>
     </v-container>
 
     <v-divider class="my-12 mx-12"></v-divider>
 
+    <!-- Se connecter -->
+    <v-container class="mx-0 mb-9 pa-0" fluid>
+      <v-card
+        dark
+        class="d-flex align-center mx-0 pt-9 ask-for-login"
+        width="100%"
+        flat
+        tile
+      >
+        <v-row
+          align="center"
+          :style="
+            !$vuetify.breakpoint.smAndDown
+              ? 'margin-left: 150px; margin-right: 150px;'
+              : $vuetify.breakpoint.width > 450
+              ? 'margin-left: 50px; margin-right: 50px;'
+              : ''
+          "
+        >
+          <v-col cols="12" md="6">
+            <v-card-title
+              class="text-lg-h3 text-h5 text-sm-h4 font-weight-black"
+            >
+              Vous être client ?
+            </v-card-title>
+            <v-card-text class="text-subtitile-1 text-md-h6">
+              Consulter votre compte pour voir toutes les nouveautés.
+            </v-card-text>
+          </v-col>
+
+          <v-col cols="12" md="6">
+            <v-card-actions>
+              <v-btn @click="goToAccount" elevation="4" outlined class="call-number mx-auto pa-5"
+                >Consulter mon compte</v-btn
+              >
+            </v-card-actions>
+          </v-col>
+        </v-row>
+      </v-card>
+    </v-container>
+
     <v-container fluid class="ma-0 pa-0">
       <h1 class="text-center text-decoration-underline title-partnaires">
-        Nos partnaires
+        Nos partenaires
       </h1>
       <v-slide-group
         class="pa-4"
@@ -113,11 +162,7 @@
         Metrotec Algerie
       </h1>
       <v-card class="transparent my-5" flat>
-        <v-img
-          class="mx-auto"
-          width="350"
-          :src="urlImageAcrditation"
-        />
+        <v-img class="mx-auto" width="350" :src="urlImageAcrditation" />
       </v-card>
       <v-card class="ma-auto" flat width="80%">
         <span
@@ -156,33 +201,27 @@ export default {
       activiteSlides: [
         {
           title: "Contrôle technique APV/APG/APL/APE",
-          url:
-            "https://images.unsplash.com/photo-1579154204845-5d7f8d4dc785?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80",
+          url: "https://images.unsplash.com/photo-1579154204845-5d7f8d4dc785?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80",
         },
         {
           title: "Etalonnage et Tarage soupapes",
-          url:
-            "https://images.unsplash.com/photo-1581087724844-037b13e16b0b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=334&q=80",
+          url: "https://images.unsplash.com/photo-1581087724844-037b13e16b0b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=334&q=80",
         },
         {
           title: "Contrôle Non Destructif",
-          url:
-            "https://images.unsplash.com/photo-1531935015902-64b87c1f4da5?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=376&q=80",
+          url: "https://images.unsplash.com/photo-1531935015902-64b87c1f4da5?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=376&q=80",
         },
         {
           title: "Etude d'impact sur l'environnement PSI-EDD",
-          url:
-            "https://images.unsplash.com/photo-1578496480240-32d3e0c04525?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80",
+          url: "https://images.unsplash.com/photo-1578496480240-32d3e0c04525?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80",
         },
         {
           title: "Expertise maritimes et industrielles",
-          url:
-            "https://images.unsplash.com/photo-1615906655593-ad0386982a0f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80",
+          url: "https://images.unsplash.com/photo-1615906655593-ad0386982a0f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80",
         },
         {
           title: "Accompagnement et Formations",
-          url:
-            "https://images.unsplash.com/photo-1621463678002-1a7d3c9224f7?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80",
+          url: "https://images.unsplash.com/photo-1621463678002-1a7d3c9224f7?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80",
         },
       ],
       partnaires: [
@@ -192,8 +231,7 @@ export default {
         },
         {
           nom: "Socorex Swissth",
-          url:
-            "https://www.lhybride.info/media/images/iconHP/Logo_Socorex_Swissth.jpg",
+          url: "https://www.lhybride.info/media/images/iconHP/Logo_Socorex_Swissth.jpg",
         },
         {
           nom: "BRAND",
@@ -213,18 +251,15 @@ export default {
         },
         {
           nom: "Huber",
-          url:
-            "https://www.lhybride.info/media/images/iconHP/Huber_Logo_140.jpg",
+          url: "https://www.lhybride.info/media/images/iconHP/Huber_Logo_140.jpg",
         },
         {
           nom: "Anton Paar",
-          url:
-            "https://www.lhybride.info/media/images/iconHP/anton-paar-logo-th.jpg",
+          url: "https://www.lhybride.info/media/images/iconHP/anton-paar-logo-th.jpg",
         },
         {
           nom: "GERSTEL",
-          url:
-            "https://www.lhybride.info/media/images/iconHP/GERSTEL-140_70.png",
+          url: "https://www.lhybride.info/media/images/iconHP/GERSTEL-140_70.png",
         },
         {
           nom: "Promega",
@@ -232,8 +267,7 @@ export default {
         },
         {
           nom: "VWR Interim",
-          url:
-            "https://www.lhybride.info/media/images/iconHP/VWR_InterimLogo-th.jpg",
+          url: "https://www.lhybride.info/media/images/iconHP/VWR_InterimLogo-th.jpg",
         },
         {
           nom: "FST",
@@ -258,6 +292,14 @@ export default {
       ],
       urlImageAcrditation: "https://via.placeholder.com/2480x3508",
     };
+  },
+  methods: {
+    goToAccount() {
+      if (this.$router.currentRoute.fullPath !== "/account") {
+        this.$router.replace("/account");
+        window.scrollTo(0, 0);
+      }
+    },
   },
 };
 </script>
@@ -298,5 +340,19 @@ export default {
   background: rgba(61, 61, 61, 0.5);
   font-size: 20px;
   font-weight: bold;
+}
+
+.row {
+  margin: 0px;
+  overflow: hidden;
+}
+
+.ask-for-login {
+  background-color: #002a6b !important;
+  background-image: linear-gradient(280deg, #002c67 0%, #00a0df 100%);
+}
+
+.ask-for-login .call-number {
+  /* background-color: #002a6b !important; */
 }
 </style>

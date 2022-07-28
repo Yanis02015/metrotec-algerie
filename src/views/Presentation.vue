@@ -36,7 +36,7 @@
     <!-- Politique -->
     <v-container>
       <h1 class="text-center text-decoration-underline title-presentation">
-        Politique de Métrotec
+        Politique de l'entreprise
       </h1>
       <v-card flat class="transparent text-president">
         <v-card-text class="text-body-1 grey--text text--darken-3">
