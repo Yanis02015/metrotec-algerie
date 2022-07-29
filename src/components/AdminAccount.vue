@@ -226,7 +226,7 @@
               >
             </v-card>
 
-            <ReportTable isAdmin :informations="selectedClient" />
+            <ReportTable @refreshSelectedClient="refreshSelectedClient" @snackbarConfig="snackbarConfig" isAdmin :informations="selectedClient" />
           </v-card>
         </v-container>
       </v-card>

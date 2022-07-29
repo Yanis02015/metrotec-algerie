@@ -40,6 +40,13 @@
                     ><v-icon>mdi-download</v-icon>
                   </v-btn>
                 </a>
+                <v-btn
+                  v-if="isAdmin"
+                  icon
+                  color="success"
+                  @click="openDialogModifyReport(item)"
+                  ><v-icon>mdi-pencil-outline</v-icon>
+                </v-btn>
               </td>
             </tr>
           </tbody>
@@ -48,6 +55,89 @@
     </v-card>
 
     <div v-else class="text-center">Vous n'avez aucun rapport</div>
+
+    <v-dialog
+      v-model="dialogModifyReport"
+      persistent
+      :overlay="false"
+      max-width="500px"
+      transition="dialog-transition"
+    >
+      <v-card>
+        <v-card-title>
+          <span class="text-h5"> Modifier le titre du document </span>
+        </v-card-title>
+        <v-card-text>
+          <v-form
+            @submit.prevent="validateNewModificationReport(modifyReport)"
+            ref="formModifyReport"
+            v-model="formValidModifyReport"
+          >
+            <v-container grid-list-xs>
+              <v-row>
+                <v-col class="pb-0" cols="12">
+                  <v-text-field
+                    dense
+                    v-model="modifyReport.title"
+                    type="text"
+                    :rules="[rules.required]"
+                    outlined
+                    label="Titre du document"
+                  ></v-text-field>
+                </v-col>
+
+                <v-col class="pb-0" cols="12">
+                  <v-text-field
+                    dense
+                    :value="informations.company"
+                    type="text"
+                    disabled
+                    outlined
+                    label="Nom de la Compagnie*"
+                  ></v-text-field>
+                </v-col>
+
+                <v-col class="pb-0" cols="12">
+                  <v-text-field
+                    dense
+                    :value="selectedReportForModification.title"
+                    type="text"
+                    disabled
+                    outlined
+                    label="Le titre du document*"
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+            </v-container>
+            <small>*Indique un champ obligatoire</small>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                color="grey darken-1"
+                text
+                @click="
+                  () => {
+                    dialogModifyReport = false;
+                    $refs.formModifyReport.reset();
+                    loading.modifyReport = false;
+                  }
+                "
+              >
+                Fermer
+              </v-btn>
+              <v-btn
+                type="submit"
+                color="blue darken-1"
+                text
+                :loading="loading.modifyReport"
+              >
+                Valider
+              </v-btn>
+            </v-card-actions>
+          </v-form>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -68,7 +158,19 @@ export default {
     },
   },
   data: () => ({
-    pdfsrc: '',
+    pdfsrc: "",
+    loading: {
+      modifyReport: false,
+    },
+    selectedReportForModification: {},
+    dialogModifyReport: false,
+    formValidModifyReport: true,
+    modifyReport: {
+      title: "",
+    },
+    rules: {
+      required: (value) => !!value || "Ce champ est obligatoire.",
+    },
   }),
   computed: {
     hasReports() {
@@ -81,6 +183,35 @@ export default {
     },
   },
   methods: {
+    openDialogModifyReport(report) {
+      this.selectedReportForModification = { ...report };
+      this.modifyReport = { ...report };
+      this.dialogModifyReport = true;
+    },
+    async validateNewModificationReport(report) {
+      if (this.$refs.formModifyReport.validate()) {
+        this.loading.modifyReport = true;
+        try {
+          const response = await axios(
+            axiosConfig(
+              "PUT",
+              "/api/report/modify/" + report.idReport,
+              {title: this.modifyReport.title}
+            )
+          );
+          this.$emit("snackbarConfig", response.data.message, "success");
+          this.$emit("refreshSelectedClient", this.informations)
+          this.dialogModifyReport = false;
+        } catch (error) {
+          const errorMsg =
+            error.response.data.error ||
+            "Le document n'a pas pu être mis à jour.";
+          this.$emit("snackbarConfig", errorMsg, "error");
+        } finally {
+          this.loading.modifyReport = false;
+        }
+      }
+    },
     async downloadPdfReport(report) {
       const response = await axios(
         axiosConfig("GET", "/reports/download/" + report.idReport, null, true)
