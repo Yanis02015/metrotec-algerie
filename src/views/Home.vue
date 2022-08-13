@@ -10,7 +10,7 @@
                   class="text-center align-center"
                   dark
                   height="100%"
-                  src="https://images.unsplash.com/photo-1460925895917-afdab827c52f"
+                  src="../assets/vitrine.jpeg"
                   gradient="to top left, rgba(0, 106, 255,.3), rgba(0, 0, 0,.8)"
                 >
                   <p
@@ -47,7 +47,7 @@
                   :class="$vuetify.breakpoint.smAndDown ? 'ma-auto' : ''"
                   height="100%"
                   :width="$vuetify.breakpoint.mdAndUp ? '100%' : '100%'"
-                  :src="urlImageAcrditation"
+                  src="../assets/accreditation.jpeg"
                 />
               </v-card>
             </v-col>
@@ -93,7 +93,11 @@
 
           <v-col cols="12" md="6">
             <v-card-actions>
-              <v-btn @click="goToAccount" elevation="4" outlined class="call-number mx-auto pa-5"
+              <v-btn
+                @click="goToAccount"
+                elevation="4"
+                outlined
+                class="call-number mx-auto pa-5"
                 >Consulter mon compte</v-btn
               >
             </v-card-actions>
@@ -133,9 +137,9 @@
     >
       <v-carousel-item
         align="center"
-        v-for="(slide, i) in activiteSlides"
+        v-for="(slide, i) in activities"
         :key="i"
-        :src="slide.url"
+        :src="'http://localhost:3000' + slide.image"
       >
         <v-sheet
           class="transparent d-flex justify-center align-center"
@@ -162,21 +166,13 @@
         Metrotec Algerie
       </h1>
       <v-card class="transparent my-5" flat>
-        <v-img class="mx-auto" width="350" :src="urlImageAcrditation" />
+        <v-img class="mx-auto" width="350" src="../assets/accreditation.jpeg" />
       </v-card>
       <v-card class="ma-auto" flat width="80%">
         <span
-          >Lorem ipsum dolor sit amet consectetur <strong>selit</strong>.
-          Laborum cupiditate, minima sit soluta explicabo exercitationem ipsam
-          vel esse labore aut nesciunt, quo iusto deleniti necessitatibus
-          veritatis libero dignissimos adipisci sed. Lorem, ipsum dolor sit amet
-          consectetur adipisicing elit. Fuga sed hic suscipit possimus
-          consectetur sit facilis laudantium architecto eaque officiis?
-          Voluptatibus, asperiores. Quaerat unde obcaecati, error praesentium a
-          iste assumenda! Lorem ipsum dolor sit amet consectetur, adipisicing
-          elit. Natus, animi totam repellendus quam, commodi tempore libero
-          praesentium odit non, harum error in eaque temporibus doloremque minus
-          voluptatem exercitationem laudantium possimus!</span
+          >MÉTROTEC ALGÉRIE, est accréditée selon la norme ISO/CEI 17025 version
+          2017 par l’organisme algerien d’accréditation ALGERAC, pour les
+          activités d’étalonnage DIMENSIONNEL.</span
         >
       </v-card>
     </v-container>
@@ -193,6 +189,8 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   name: "Home",
   data() {
@@ -290,7 +288,7 @@ export default {
           url: "https://www.lhybride.info/media/images/iconHP/BHmettler.jpg",
         },
       ],
-      urlImageAcrditation: "https://via.placeholder.com/2480x3508",
+      urlImageAcrditation: "../assets/accreditation.jpeg",
     };
   },
   methods: {
@@ -300,6 +298,9 @@ export default {
         window.scrollTo(0, 0);
       }
     },
+  },
+  computed: {
+    ...mapState(["activities"]),
   },
 };
 </script>

@@ -109,11 +109,11 @@
           <v-list>
             <v-list-item
               @click="goToActivitiesMenu(index + 1)"
-              v-for="(item, index) in items"
+              v-for="(item, index) in activities"
               :key="index"
               link
             >
-              <v-list-item-title>{{ item }}</v-list-item-title>
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
@@ -203,16 +203,19 @@
                   "
                   class="pt-0 text-left"
                 >
-                  Phasellus feugiat arcu sapien, et iaculis ipsum elementum sit
-                  amet. Mauris cursus commodo interdum. Praesent ut risus eget
-                  metus luctus accumsan id ultrices nunc.
+                  METROTEC ALGÉRIE est une SARL, résidente au capital de 100,000
+                  DA, qui a été créée en 2014, située à Bordj Bou Arreridj
+                  (34000) en Algérie, accréditée par l’organisme algerien
+                  d’accréditation ALGERAC, pour les activités d’étalonnage
+                  DIMENSIONNEL :
                   <br /><br />
-                  Sed at orci sed massa consectetur dignissim a sit amet dui.
-                  Duis commodo vitae velit et faucibus. Morbi vehicula lacinia
-                  malesuada. Nulla placerat augue vel ipsum ultrices, cursus
-                  iaculis dui sollicitudin. Vestibulum eu ipsum vel diam
-                  elementum tempor vel ut orci. Orci varius natoque penatibus et
-                  magnis dis parturient montes, nascetur ridiculus mus.
+                  * Pour sa premiere fois en 2019 selon la norme ISO/CEI 17025
+                  version 2005 (initiale)
+                  <br />
+                  * Decembre 2020 ISO/CEI 17025 version 2017 nouvelle version
+                  <br />
+                  * Et en mai 2022 ISO/CEI 17025 version 2017 pour sa deuxieme
+                  fois (renouvellement)
                 </v-card-text>
               </v-col>
             </v-hover>
@@ -229,7 +232,7 @@
                   flat
                 ></v-card>
                 <v-card-text
-                  v-for="(item, index) in items"
+                  v-for="(item, index) in activities"
                   :key="index"
                   :class="
                     hover
@@ -238,7 +241,7 @@
                   "
                   class="pt-0 text-left"
                 >
-                  {{ index + 1 }} - {{ item }}
+                  {{ index + 1 }} - {{ item.title }}
                 </v-card-text>
               </v-col>
             </v-hover>
@@ -268,18 +271,27 @@
                     >Téléphone</v-subheader
                   >
                   <v-card-text class="ml-5">
-                    034 368 367
+                    <a href="tel:+21335768414">+213 (0) 35 76 84 14</a>
                     <br />
-                    034 457 518
+                    <a href="tel:+21334803559"
+                      >+213 (0) 34 80 35 59 (annexe Béjaïa)</a
+                    >
                     <br />
-                    06 69 13 15 95
+                    <br />
+                    <a href="tel:+213663017897">+213 (0) 663 017 897</a>
+                    <br />
+                    <a href="tel:+213542228088">+213 (0) 542 228 088</a>
                   </v-card-text>
                   <v-subheader
                     :class="hover ? 'text-decoration-underline' : ''"
                     style="margin-bottom: -20px; margin-top: -15px"
                     >Fax</v-subheader
                   >
-                  <v-card-text class="ml-5"> 034 368 367 </v-card-text>
+                  <v-card-text class="ml-5">
+                    +213 (0) 35 76 84 14
+                    <br />
+                    +213 (0) 34 80 35 59 (annexe Béjaïa)
+                  </v-card-text>
 
                   <v-subheader
                     :class="hover ? 'text-decoration-underline' : ''"
@@ -287,7 +299,11 @@
                     >E-mail</v-subheader
                   >
                   <v-card-text class="ml-5">
-                    contact@metrotec-algerie.com
+                    contact.metrotecalgerie@gmail.com
+                    <br />
+                    rh.metrotecalgerie@gmail.com
+                    <br />
+                    metrotec_algerie@yahoo.fr
                   </v-card-text>
                 </v-card-text>
               </v-col>
@@ -354,14 +370,39 @@
           <v-icon dark> mdi-email</v-icon>
         </v-btn>
       </div>
+
+      <v-snackbar
+        :timeout="2000"
+        :color="snackbarInformation.type"
+        right
+        v-model="snackbarInformation.model"
+        transition="slide-x-reverse-transition"
+      >
+        <p class="font-weight-bold">
+          {{ snackbarInformation.message }}
+        </p>
+        <template v-slot:action="{ attrs }">
+          <v-btn
+            color="white"
+            fab
+            x-small
+            :class="`${snackbarInformation.type}--text mr-2`"
+            v-bind="attrs"
+            @click="snackbarInformation.model = false"
+          >
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </template>
+      </v-snackbar>
     </v-main>
   </v-app>
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   name: "App",
-
   data: () => ({
     icons: [
       {
@@ -496,6 +537,7 @@ export default {
           return "blue-grey--text text--lighten-2";
       }
     },
+    ...mapState(["snackbarInformation", "activities"]),
   },
   beforeMount() {
     this.modelBottomNavigation = this.navBarItemSelected;

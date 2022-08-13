@@ -14,14 +14,14 @@
       <v-card-text class="pt-6">Chargment... </v-card-text>
     </v-card>
 
-    <v-container v-else-if="!isLogged">
+    <div v-else-if="!isLogged">
       <h1
         class="text-center text-decoration-underline title-news mb-10"
         :class="$vuetify.breakpoint.smAndDown ? 'mt-16' : 'mt-5'"
       >
         Se Connecter
       </h1>
-      <v-container grid-list-xs>
+      <div grid-list-xs>
         <v-row justify="center" no-gutters>
           <v-col cols="12" md="6" sm="10">
             <v-card flat>
@@ -71,44 +71,21 @@
             </v-card>
           </v-col>
         </v-row>
-      </v-container>
-    </v-container>
+      </div>
+    </div>
 
-    <UserAccount v-else />
-
-    <v-snackbar
-      :timeout="2000"
-      color="error"
-      right
-      v-model="errorMessageHandler"
-      transition="slide-x-reverse-transition"
-    >
-      <p class="font-weight-bold">
-        {{ errorMessageResponse }}
-      </p>
-      <template v-slot:action="{ attrs }">
-        <v-btn
-          color="white"
-          fab
-          x-small
-          class="error--text mr-2"
-          v-bind="attrs"
-          @click="errorMessageHandler = false"
-        >
-          <v-icon>mdi-close</v-icon>
-        </v-btn>
-      </template>
-    </v-snackbar>
+    <UserAccount @logout="logout" v-else />
   </v-container>
 </template>
 
 <script>
 import UserAccount from "../../components/UserAccount.vue";
+import { mapActions } from "vuex";
+
 const axiosConfig = require("../../configurations/axiosConfig");
 const axios = require("axios");
 export default {
   data: () => ({
-    errorMessageHandler: false,
     loginBtnLoading: false,
     isLoading: true,
     isLogged: false,
@@ -116,7 +93,6 @@ export default {
     login: "",
     password: "",
     valid: true,
-    errorMessageResponse: "",
     loginValidation: true,
     passwordValidation: true,
   }),
@@ -124,27 +100,48 @@ export default {
     this.startLogin();
   },
   methods: {
+    ...mapActions(["snackbarConfig"]),
+    async logout() {
+      localStorage.removeItem("idUser");
+      try {
+        await axios(axiosConfig("GET", "/api/user/clear-cookies"));
+        this.snackbarConfig({
+          message: "À très bientôt.",
+          type: "warning",
+        });
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.startLogin();
+      }
+    },
     async startLogin(body) {
       try {
         const response = await axios(
           axiosConfig("POST", "/api/user/login", body)
         );
-        console.log(response);
         localStorage.setItem("idUser", response.data.idUser);
+        if (body)
+          this.snackbarConfig({
+            message: response.data.message || "",
+            type: "success",
+          });
         this.isLogged = true;
       } catch (error) {
-        this.errorMessageResponse =
-          error.response.data && error.response.data.error
-            ? error.response.data.error
-            : "Erreur de connexion";
-        this.errorMessageHandler = true;
-        if (this.errorMessageResponse.includes("Mot de passe")) {
-          this.passwordValidation = false;
-        } else if (this.errorMessageResponse.includes("Utilisateur")) {
-          this.loginValidation = false;
-        }
         this.isLogged = false;
-        this.$refs.form.validate();
+        if (body) {
+          const message =
+            error.response.data && error.response.data.error
+              ? error.response.data.error
+              : "Erreur de connexion";
+          this.snackbarConfig({ message: message, type: "error" });
+          if (message.includes("Mot de passe")) {
+            this.passwordValidation = false;
+          } else if (message.includes("Utilisateur")) {
+            this.loginValidation = false;
+          }
+          this.$refs.form.validate();
+        }
       } finally {
         this.loginBtnLoading = false;
         this.isLoading = false;
@@ -161,8 +158,10 @@ export default {
   watch: {
     login() {
       this.loginValidation = true;
-      if (this.password) this.passwordValidation = true;
-      this.$refs.form.validate()
+      if (this.password.length > 0) {
+        this.passwordValidation = true;
+        this.$refs.form.validate();
+      }
     },
     password() {
       this.passwordValidation = true;

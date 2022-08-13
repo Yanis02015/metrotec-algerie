@@ -8,7 +8,7 @@
     </h1>
 
     <!-- Metrotec banniere -->
-    <v-container>
+    <div>
       <v-card>
         <div class="d-flex flex-wrap justify-left">
           <v-avatar class="ma-3" size="125" tile>
@@ -22,10 +22,40 @@
               >contact@metrotec-algerie.com</v-card-subtitle
             >
           </div>
-          <v-card-actions class="ml-auto">
+          <v-card-actions class="d-flex flex-wrap justify-end flex-row ml-auto">
+            <v-badge
+              :content="unseenMessages"
+              :value="unseenMessages"
+              class="ma-2 mt-auto"
+              color="primary"
+              overlap
+              bordered
+            >
+              <v-btn
+                @click="dialogMessageFullscreen = true"
+                class="primary--text"
+                outlined
+                small
+              >
+                Messages
+              </v-btn>
+            </v-badge>
+
             <v-btn
-              @click="logout"
-              class="ma-2 mt-auto red--text"
+              @click="
+                () => {
+                  dialogNewsFullscreen = true;
+                }
+              "
+              class="ma-2 mt-auto success--text"
+              outlined
+              small
+            >
+              Actualitées
+            </v-btn>
+            <v-btn
+              @click="$emit('logout')"
+              class="ma-2 mt-auto error--text"
               outlined
               small
             >
@@ -34,7 +64,7 @@
           </v-card-actions>
         </div>
       </v-card>
-    </v-container>
+    </div>
 
     <h1
       class="text-center text-decoration-underline title-news mb-10"
@@ -131,7 +161,9 @@
           }}</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-toolbar-items>
-            <v-btn dark text @click="dialogFullScreen = false">Fermer</v-btn>
+            <v-btn dark plain text @click="dialogFullScreen = false"
+              >Fermer</v-btn
+            >
           </v-toolbar-items>
         </v-toolbar>
 
@@ -215,7 +247,7 @@
                 Ajouter un document</v-btn
               >
               <v-btn
-                @click="refreshSelectedClient(selectedClient)"
+                @click="refreshSelectedClient(selectedClient, 'OPTION1')"
                 class="mx-2 mb-5"
                 outlined
                 color="primary"
@@ -226,7 +258,12 @@
               >
             </v-card>
 
-            <ReportTable @refreshSelectedClient="refreshSelectedClient" @snackbarConfig="snackbarConfig" isAdmin :informations="selectedClient" />
+            <ReportTable
+              @refreshSelectedClient="refreshSelectedClient"
+              @snackbarConfig="snackbarConfig"
+              isAdmin
+              :informations="selectedClient"
+            />
           </v-card>
         </v-container>
       </v-card>
@@ -506,6 +543,7 @@
                 <v-col class="pb-0" cols="12">
                   <v-file-input
                     label="Fichier à importer"
+                    accept="application/pdf"
                     v-model="newReport.file"
                     outlined
                     dense
@@ -523,7 +561,7 @@
                   () => {
                     dialogAddReport = false;
                     $refs.formAddReport.reset();
-                    loading.addReport = false
+                    loading.addReport = false;
                   }
                 "
               >
@@ -543,29 +581,19 @@
       </v-card>
     </v-dialog>
 
-    <v-snackbar
-      :timeout="2000"
-      :color="snackbarInformation.type"
-      right
-      v-model="snackbarInformation.model"
-      transition="slide-x-reverse-transition"
-    >
-      <p class="font-weight-bold">
-        {{ snackbarInformation.message }}
-      </p>
-      <template v-slot:action="{ attrs }">
-        <v-btn
-          color="white"
-          fab
-          x-small
-          :class="`${snackbarInformation.type}--text mr-2`"
-          v-bind="attrs"
-          @click="snackbarInformation.model = false"
-        >
-          <v-icon>mdi-close</v-icon>
-        </v-btn>
-      </template>
-    </v-snackbar>
+    <!-- NEWS DIALOG -->
+    <DialogNews
+      :dialog="dialogNewsFullscreen"
+      @disableDialogNews="disableDialogNews"
+    />
+
+    <!-- Messages DIALOG -->
+    <DialogMessages
+      :dialog="dialogMessageFullscreen"
+      @disableDialogMessages="disableDialogMessages"
+      @setIsMessageSeen="setIsMessageSeen"
+      ref="DialogMessages"
+    />
   </v-container>
 </template>
 
@@ -573,20 +601,22 @@
 import axios from "axios";
 import axiosConfig from "../configurations/axiosConfig";
 import ReportTable from "./ReportTable.vue";
+import DialogNews from "./news/DialogNews.vue";
+import DialogMessages from "./messages/DialogMessages.vue";
+import { mapActions } from "vuex";
+
+const DO_NOT_SHOW = "OPTION1";
+
 export default {
   data: () => ({
     loading: {
       addReport: false,
     },
-    snackbarInformation: {
-      model: false,
-      message: "",
-      type: "success",
-    },
     formValidModify: true,
     formValidAddUser: true,
     formValidAddReport: true,
     clients: [],
+    unseenMessages: 0,
     clientModification: {},
     newClient: {},
     newReport: {},
@@ -597,6 +627,8 @@ export default {
     dialogAddUser: false,
     dialogModifyReport: false,
     dialogModifyUser: false,
+    dialogNewsFullscreen: false,
+    dialogMessageFullscreen: false,
     addUserLoading: false,
     addReportLoading: false,
     refreshClientsTableLoading: false,
@@ -629,6 +661,16 @@ export default {
     },
   }),
   methods: {
+    ...mapActions(["snackbarConfig"]),
+    disableDialogNews() {
+      this.dialogNewsFullscreen = false;
+    },
+    disableDialogMessages() {
+      this.dialogMessageFullscreen = false;
+    },
+    setIsMessageSeen(number) {
+      this.unseenMessages = number;
+    },
     getPhoneType(value) {
       const ooredoo = /^(00213|\+213|0)((5)[0-9]{8})$/.test(value);
       const mobilis = /^(00213|\+213|0)((6)[0-9]{8})$/.test(value);
@@ -640,16 +682,7 @@ export default {
       if (fixe) return "Numéro : Fixe correct.";
       return "";
     },
-    async logout() {
-      localStorage.removeItem("idUser");
-      try {
-        await axios(axiosConfig("GET", "/api/user/clear-cookies"))
-      } catch (error) {
-        console.log(error);
-      }
-      this.$router.go();
-    },
-    async refreshSelectedClient(item) {
+    async refreshSelectedClient(item, show) {
       this.dialogFullScreen = true;
       this.selectedClient = { ...item };
       try {
@@ -658,73 +691,93 @@ export default {
         );
         if (response.data.idUser) {
           this.selectedClient = response.data;
+          if (show == DO_NOT_SHOW)
+            this.snackbarConfig({
+              type: "success",
+              message: "Actualisé avec succées.",
+            });
         }
       } catch (error) {
         console.log(error);
       }
-    },
-    snackbarConfig(message, type) {
-      this.snackbarInformation.message = message;
-      this.snackbarInformation.type = type;
-      this.snackbarInformation.model = true;
     },
     addClient() {
       if (this.$refs.formAddUser.validate()) {
         this.addUserLoading = true;
         axios(axiosConfig("POST", "/api/user/add-user", this.newClient))
           .then((response) => {
-            this.snackbarConfig(response.data.message, "success");
+            this.snackbarConfig({
+              type: "success",
+              message: response.data.message,
+            });
             this.dialogAddUser = false;
             this.$refs.formAddUser.reset();
             this.addUserLoading = false;
-            this.refreshClientsTable();
+            this.refreshClientsTable(DO_NOT_SHOW);
           })
           .catch((error) => {
             this.addUserLoading = false;
             console.log(error);
             const message =
               error.response.data.error || "Le client n'a pas pu être ajouté.";
-            this.snackbarConfig(message, "error");
+            this.snackbarConfig({
+              type: "error",
+              message: message,
+            });
           });
       }
     },
-    async refreshClientsTable() {
+    async refreshClientsTable(show) {
       this.refreshClientsTableLoading = true;
       try {
         this.clientsListChargementText = "Chargement...";
-        const response = await axios(
-          axiosConfig("GET", "/api/user/")
-        );
-        this.snackbarConfig("Table actuialisé avec succès.", "success");
+        const response = await axios(axiosConfig("GET", "/api/user/"));
+        if (show !== DO_NOT_SHOW)
+          this.snackbarConfig({
+            type: "success",
+            message: "Table actuialisé avec succès.",
+          });
         this.clients = response.data;
         this.clientsListChargementText = "Vous n'avez aucun client.";
       } catch (error) {
         this.clientsListChargementText =
           error.response.data.error ||
           "Erreur inattendue, vérifiez votre connexion internet.";
-        this.snackbarConfig(this.clientsListChargementText, "error");
+        this.snackbarConfig({
+          type: "error",
+          message: this.clientsListChargementText,
+        });
         console.log(error);
       }
       this.refreshClientsTableLoading = false;
+
+      // refresh nombre on message unseenned from children
+      this.$refs.DialogMessages.refreshMessage(DO_NOT_SHOW);
     },
     async modifyClient() {
       if (this.$refs.formModify.validate()) {
         try {
-          await axios(
+          const response = await axios(
             axiosConfig(
               "PUT",
               "/api/user/modify/" + this.clientModification.idUser,
               this.clientModification
             )
           );
-          this.refreshClientsTable();
+          this.refreshClientsTable(DO_NOT_SHOW);
           this.dialogModifyUser = false;
           this.refreshSelectedClient(this.clientModification);
+          this.snackbarConfig({
+            type: "success",
+            message: response.data.message,
+          });
         } catch (error) {
           const message =
             error.response.data.error || "Le client n'a pas pu être modifié.";
-          this.snackbarConfig(message, "error");
-          console.log(error);
+          this.snackbarConfig({
+            type: "error",
+            message: message,
+          });
         }
       }
     },
@@ -732,24 +785,31 @@ export default {
       if (this.$refs.formAddReport.validate()) {
         this.loading.addReport = true;
         const formData = new FormData();
-        formData.append("pdf", this.newReport.file, this.newReport.file.name);
+        formData.append("file", this.newReport.file, this.newReport.file.name);
         formData.append("company", this.selectedClient.company);
         formData.append("title", this.newReport.title);
         try {
-          await axios(
+          const response = await axios(
             axiosConfig(
               "PUT",
               "/api/report/" + this.selectedClient.idUser,
               formData
             )
           );
+          this.snackbarConfig({
+            type: "success",
+            message: response.data.message,
+          });
           this.$refs.formAddReport.reset();
           this.refreshSelectedClient(this.selectedClient);
         } catch (error) {
           console.log(error);
           const message =
             error.response.data.error || "Le rapport n'a pas pu être ajouté.";
-          this.snackbarConfig(message, "error");
+          this.snackbarConfig({
+            type: "error",
+            message: message,
+          });
         }
         this.dialogAddReport = false;
       }
@@ -759,7 +819,7 @@ export default {
   mounted() {
     this.refreshClientsTable();
   },
-  components: { ReportTable },
+  components: { ReportTable, DialogNews, DialogMessages },
 };
 </script>
 

@@ -7,62 +7,69 @@ export default new Vuex.Store({
   state: {
     activities: [
       {
-        title: "Premier domaine d'activité",
-        image: "",
+        title: "Dimensionnel",
+        image: "/images/services/dimensionnel.jpeg",
         contents: [
-          "Premier paragraphe",
-          "Deuxiéme paragraphe",
-          "Troisiéme paragraphe",
+          "Le laboratoire étalonne tous les instruments de mesure dimensionnel. L'étalonnage de vos instruments de mesure permet de les raccorder au système d'unités international et d'assurer la traçabilité métrologique de vos mesures.",
+          "Accrédité ALGERAC (<a target='_blank' href='/images/services/accreditation.jpeg'>Accréditation</a> / <a target='_blank' href='#'>Annexe technique</a>)",
+          "* Pied à coulisse",
+          "* Mécrométre d’exterieur",
         ],
       },
       {
-        title: "Deuxième domaine d'activité",
-        image: "",
+        title: "Température",
+        image: "/images/services/temperature.jpeg",
         contents: [
-          "Premier paragraphe",
-          "Deuxiéme paragraphe",
-          "Troisiéme paragraphe",
+          "Le laboratoire étalonne tous les instruments de mesure de température. La chaine d'étalonnage et les méthodes mises en place permettent le raccordement au Système International d’unités (SI) de la quasi-totalité des instruments.",
         ],
       },
       {
-        title: "Troisième domaine d'activité",
-        image: "",
+        title: "Pression",
+        image: "/images/services/pression.png",
         contents: [
-          "Premier paragraphe",
-          "Deuxiéme paragraphe",
-          "Troisiéme paragraphe",
+          "Le laboratoire étalonne tous les instruments de mesure de pression. La chaine d'étalonnage et les méthodes mises en place permettent le raccordement au Système International d’unités (SI) de la quasi-totalité des instruments.",
         ],
       },
       {
-        title: "Quatrième domaine d'activité",
-        image: "",
+        title: "Torque",
+        image: "/images/services/torque.jpeg",
         contents: [
-          "Premier paragraphe",
-          "Deuxiéme paragraphe",
-          "Troisiéme paragraphe",
+          "L'étalonnage de vos instruments de mesure permet de les raccorder au système d'unités international et d'assurer la traçabilité métrologique de vos mesures. Notre banc des couples permet la détermination de la justesse de vos instruments jusqu'à 550 N.m.",
         ],
       },
       {
-        title: "Cinquème domaine d'activité",
-        image: "",
+        title: "Balance",
+        image: "/images/services/balance.jpeg",
         contents: [
-          "Premier paragraphe",
-          "Deuxiéme paragraphe",
-          "Troisiéme paragraphe",
+          "Le laboratoire étalonne tous les instruments de mesure de balance. La chaine d'étalonnage et les méthodes mises en place permettent le raccordement au Système International d’unités (SI) de la quasi-totalité des instruments.",
         ],
       },
       {
-        title: "Sixième domaine d'activité",
-        image: "",
+        title: "Formation",
+        image: "/images/services/formation.jpg",
         contents: [
-          "Premier paragraphe",
-          "Deuxiéme paragraphe",
-          "Troisiéme paragraphe",
+          "Le laboratoire <strong>METROTEC ALGERIE</strong> assure des formations et accompagnement dans <strong>le domaine de métrologie quel que soit votre activité.</strong>",
         ],
       },
     ],
+    snackbarInformation: {
+      type: "error",
+      model: false,
+      message: "",
+    },
   },
-  mutations: {},
-  actions: {},
+  mutations: {
+    MODIFY_SNACKBAR(state, payload) {
+      state.snackbarInformation.type = payload.type;
+      state.snackbarInformation.message = payload.message;
+      state.snackbarInformation.model = true;
+    },
+  },
+  actions: {
+    snackbarConfig(context, payload) {
+      if (payload.type && payload.message)
+        context.commit("MODIFY_SNACKBAR", payload);
+    },
+  },
   modules: {},
 });

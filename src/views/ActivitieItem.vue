@@ -4,26 +4,13 @@
       <h1 class="text-center text-decoration-underline title-activities">
         {{ activitie.title }}
       </h1>
-      <v-card flat class="ma-auto" width="700">
-        <v-card-text class="ma-0">
-          {{ activitie.contents[1] }}
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda ab
-          rem natus sint voluptatem vitae dolorem voluptatibus quasi magnam
-          minima numquam accusantium voluptatum, officia temporibus tempora
-          veritatis ratione dolor odit!
-        </v-card-text>
-      </v-card>
       <v-img
         class="mx-auto my-3"
         width="700"
-        src="https://picsum.photos/510/300?random"
+        :src="`http://localhost:3000${activitie.image}`"
       ></v-img>
       <v-card flat class="ma-auto" width="700">
-        <v-card-text v-for="(content, i) in activitie.contents" :key="i" class="ma-0">
-          <span v-if="i">
-            {{ content }}
-          </span>
-        </v-card-text>
+        <v-card-text v-html="content" v-for="(content, i) in activitie.contents" :key="i" class="ma-0"/>
       </v-card>
     </v-container>
 

@@ -13,7 +13,11 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item in informations.Reports" :key="item.idReport">
+            <tr
+              :class="item.consultations > 0 ? 'table-row-consulted' : ''"
+              v-for="item in informations.Reports"
+              :key="item.idReport"
+            >
               <td>
                 <a :href="item.reportUrl" target="_blank">{{ item.title }}</a>
               </td>
@@ -43,7 +47,7 @@
                 <v-btn
                   v-if="isAdmin"
                   icon
-                  color="success"
+                  color="error"
                   @click="openDialogModifyReport(item)"
                   ><v-icon>mdi-pencil-outline</v-icon>
                 </v-btn>
@@ -193,20 +197,21 @@ export default {
         this.loading.modifyReport = true;
         try {
           const response = await axios(
-            axiosConfig(
-              "PUT",
-              "/api/report/modify/" + report.idReport,
-              {title: this.modifyReport.title}
-            )
+            axiosConfig("PUT", "/api/report/modify/" + report.idReport, {
+              title: this.modifyReport.title,
+            })
           );
-          this.$emit("snackbarConfig", response.data.message, "success");
-          this.$emit("refreshSelectedClient", this.informations)
+          this.$emit("snackbarConfig", {
+            message: response.data.message,
+            type: "success",
+          });
+          this.$emit("refreshSelectedClient", this.informations);
           this.dialogModifyReport = false;
         } catch (error) {
           const errorMsg =
             error.response.data.error ||
             "Le document n'a pas pu être mis à jour.";
-          this.$emit("snackbarConfig", errorMsg, "error");
+          this.$emit("snackbarConfig", {message: errorMsg, type:"error"});
         } finally {
           this.loading.modifyReport = false;
         }
@@ -246,4 +251,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.table-row-consulted {
+  background-color: #f3f3f3;
+}
+</style>

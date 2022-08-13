@@ -76,47 +76,23 @@
     </v-container>
 
     <AdminAccount v-else />
-
-    <v-snackbar
-      :timeout="2000"
-      color="error"
-      right
-      v-model="errorMessageHandler"
-      transition="slide-x-reverse-transition"
-    >
-      <p class="font-weight-bold">
-        {{ errorMessageResponse }}
-      </p>
-      <template v-slot:action="{ attrs }">
-        <v-btn
-          color="white"
-          fab
-          x-small
-          class="error--text mr-2"
-          v-bind="attrs"
-          @click="errorMessageHandler = false"
-        >
-          <v-icon>mdi-close</v-icon>
-        </v-btn>
-      </template>
-    </v-snackbar>
   </v-container>
 </template>
 
 <script>
 import AdminAccount from "../../components/AdminAccount.vue";
+import { mapActions } from "vuex";
+
 const axiosConfig = require("../../configurations/axiosConfig");
 const axios = require("axios");
 export default {
   data: () => ({
-    errorMessageHandler: false,
     isLoading: true,
     isLogged: false,
     showPassword: false,
     login: "",
     password: "",
     valid: true,
-    errorMessageResponse: "",
     loginValidation: true,
     passwordValidation: true,
   }),
@@ -132,9 +108,9 @@ export default {
     }
   },
   methods: {
+    ...mapActions(["snackbarConfig"]),
     submit() {
       if (this.$refs.form.validate()) {
-        this.errorMessageResponse = "";
         axios(
           axiosConfig("POST", "/api/user/login-admin", {
             login: this.login,
@@ -143,18 +119,18 @@ export default {
         )
           .then(() => (this.isLogged = true))
           .catch((error) => {
-            console.log("error");
-            this.errorMessageResponse =
+            const errorMessageResponse =
               error.response.data.error || "Erreur de connexion";
-
-            this.errorMessageHandler = true;
-            if (this.errorMessageResponse.includes("Mot de passe")) {
+            this.snackbarConfig({
+              type: "error",
+              message: errorMessageResponse,
+            });
+            if (errorMessageResponse.includes("Mot de passe")) {
               this.passwordValidation = false;
-            } else {
+            } else if (errorMessageResponse.includes("Utilisateur")) {
               this.loginValidation = false;
             }
             this.$refs.form.validate();
-            console.log(this.errorMessageResponse);
           });
       }
     },
@@ -162,8 +138,8 @@ export default {
   watch: {
     login() {
       this.loginValidation = true;
-      if (this.password) this.passwordValidation = true;
-      this.$refs.form.validate();
+      if (this.password.length > 0) this.passwordValidation = true;
+      if (this.isLoading && !this.isLogged) this.$refs.form.validate();
     },
     password() {
       this.passwordValidation = true;
