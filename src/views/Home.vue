@@ -97,7 +97,7 @@
                 @click="goToAccount"
                 elevation="4"
                 outlined
-                class="call-number mx-auto pa-5"
+                class="mx-auto pa-5"
                 >Consulter mon compte</v-btn
               >
             </v-card-actions>
@@ -351,9 +351,5 @@ export default {
 .ask-for-login {
   background-color: #002a6b !important;
   background-image: linear-gradient(280deg, #002c67 0%, #00a0df 100%);
-}
-
-.ask-for-login .call-number {
-  /* background-color: #002a6b !important; */
 }
 </style>

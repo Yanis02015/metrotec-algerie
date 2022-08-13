@@ -85,12 +85,19 @@
               <v-card-title> Bordj Bou Arreridj </v-card-title>
               <v-card-text class="text-left">
                 Sarl METROTEC ALGERIE <br />
-                Cooperative EL Aouras section 40 ilot 93 Bordj Bou Arreridj 34000 Algérie <br />
+                Cooperative EL Aouras section 40 ilot 93 Bordj Bou Arreridj
+                34000 Algérie <br />
                 Établissement ouvert : 08:00 - 16:30
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn href="https://www.google.com/maps?ll=36.076903,4.749377&z=16&t=m&hl=fr&gl=DZ&mapclient=embed&cid=5326665031137400845" target="_blank" class="blue-grey--text" text plain>
+                <v-btn
+                  href="https://www.google.com/maps?ll=36.076903,4.749377&z=16&t=m&hl=fr&gl=DZ&mapclient=embed&cid=5326665031137400845"
+                  target="_blank"
+                  class="blue-grey--text"
+                  text
+                  plain
+                >
                   Voir sur Google maps
                   <v-icon class="mb-1" size="22"> mdi-map-marker </v-icon>
                 </v-btn>
@@ -244,10 +251,6 @@ export default {
   methods: {
     async validate() {
       // TODO DELETE
-      let test = this.message.message;
-      console.log(test.replace("\n", "<br />"));
-      console.log(test.replace(/\n/g, "\\n"));
-      console.log(test.replace(/\n/g, "<br/>"));
       this.$refs.form.validate();
       if (this.valid) {
         try {
@@ -255,29 +258,9 @@ export default {
           alert("Message envoyé avec succées");
           this.$refs.form.reset();
         } catch (error) {
-          alert("Erreur");
+          // alert("Erreur");
         }
       }
-
-      // if (this.valid) {
-      //   window.open(
-      //     "mailto:contact@metrotec-algerie.com" +
-      //       "?subject=" +
-      //       this.object +
-      //       "&body=Nom : " +
-      //       this.name +
-      //       "%0A" +
-      //       "Nom de l'organisme : " +
-      //       this.company +
-      //       "%0A" +
-      //       "E-mail : " +
-      //       this.email +
-      //       "%0A%0A" +
-      //       "Contenu : " +
-      //       this.message,
-      //     "_blank"
-      //   );
-      // }
     },
   },
 };
