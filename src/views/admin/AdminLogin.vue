@@ -75,7 +75,7 @@
       </v-container>
     </v-container>
 
-    <AdminAccount v-else />
+    <AdminAccount @logout="logout" v-else />
   </v-container>
 </template>
 
@@ -132,6 +132,22 @@ export default {
             }
             this.$refs.form.validate();
           });
+      }
+    },
+    async logout() {
+      localStorage.removeItem("idUser");
+      try {
+        await axios(axiosConfig("GET", "/api/user/clear-cookies"));
+        this.snackbarConfig({
+          message: "À très bientôt.",
+          type: "warning",
+        });
+        this.$router.go(0);
+      } catch (error) {
+        this.snackbarConfig({
+          message: "Erreur réseau.",
+          type: "error",
+        });
       }
     },
   },

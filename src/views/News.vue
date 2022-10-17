@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <h1
-      class="text-center text-decoration-underline title-news mb-10"
+      class="text-center text-decoration-underline text-h6 text-lg-h4 text-sm-h5 font-weight-bold mb-10"
       :class="$vuetify.breakpoint.smAndDown ? 'mt-16' : 'mt-5'"
     >
       L'actualité chez Métrotec
@@ -88,7 +88,7 @@
     <!-- -->
     <v-dialog v-model="dialogVisibilitie" width="800">
       <v-card v-if="hasArticles" tile>
-        <v-card-title class="text-center mx-auto title-news mb-5">
+        <v-card-title class="text-center mx-auto text-h6 text-lg-h4 text-sm-h5 font-weight-bold mb-5">
           <v-btn
             @click="dialogVisibilitie = false"
             plain
@@ -224,10 +224,6 @@ export default {
 </script>
 
 <style>
-.title-news {
-  font-family: "Cinzel Decorative", cursive;
-  font-size: 25px;
-}
 #date-article {
   font-family: "Roboto", sans-serif;
   font-weight: bold;

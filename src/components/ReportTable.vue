@@ -30,7 +30,15 @@
                 <span class="grey--text font-italic" v-else>/</span>
               </td>
               <td class="text-center">
-                <a target="_blank" :href="item.reportUrl">
+                <v-btn
+                  v-if="isAdmin"
+                  icon
+                  color="error"
+                  @click="showDialogReportDelete(item)"
+                >
+                  <v-icon>mdi-delete-outline</v-icon>
+                </v-btn>
+                <a v-else target="_blank" :href="item.reportUrl">
                   <v-btn icon color="primary"
                     ><v-icon>mdi-open-in-new</v-icon></v-btn
                   >
@@ -47,7 +55,7 @@
                 <v-btn
                   v-if="isAdmin"
                   icon
-                  color="error"
+                  color="primary"
                   @click="openDialogModifyReport(item)"
                   ><v-icon>mdi-pencil-outline</v-icon>
                 </v-btn>
@@ -142,12 +150,62 @@
         </v-card-text>
       </v-card>
     </v-dialog>
+
+    <!-- Delete report -->
+    <v-dialog v-model="dialogDeleteReport" max-width="350">
+      <v-card>
+        <v-card-title class="text-h5"> Suppression </v-card-title>
+
+        <v-card-text>
+          Vous êtes sur le point de supprimer le document :
+        </v-card-text>
+
+        <v-card-title class="black--text text-h6">
+          {{ selectedReportForDeleting.title }}
+          <br />
+          {{
+            new Date(selectedReportForDeleting.createdAt).toLocaleDateString()
+          }}
+        </v-card-title>
+        <v-card-text>
+          <span class="caption text--secondary font-italic" v-if="selectedReportForDeleting.consultations > 0"
+            >Consulté par l'utilisateur {{ informations.fullName }}.</span
+          >
+          <span v-else class="error--text caption font-weight-bold font-italic"
+            >Non consulté par l'utilisateur {{ informations.fullName }}.</span
+          >
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+
+          <v-btn
+            color="grey darken-1"
+            plain
+            text
+            @click="dialogDeleteReport = false"
+          >
+            Annuler
+          </v-btn>
+
+          <v-btn
+            color="red darken-1"
+            text
+            plain
+            :loading="loading.deleteReport"
+            @click="deleteReport(selectedReportForDeleting.idReport)"
+          >
+            Supprimer
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
 <script>
 import axios from "axios";
 import axiosConfig from "../configurations/axiosConfig";
+import { mapActions } from "vuex";
 
 export default {
   props: {
@@ -165,9 +223,12 @@ export default {
     pdfsrc: "",
     loading: {
       modifyReport: false,
+      deleteReport: false,
     },
     selectedReportForModification: {},
+    selectedReportForDeleting: {},
     dialogModifyReport: false,
+    dialogDeleteReport: false,
     formValidModifyReport: true,
     modifyReport: {
       title: "",
@@ -187,6 +248,7 @@ export default {
     },
   },
   methods: {
+    ...mapActions(["snackbarConfig"]),
     openDialogModifyReport(report) {
       this.selectedReportForModification = { ...report };
       this.modifyReport = { ...report };
@@ -211,7 +273,7 @@ export default {
           const errorMsg =
             error.response.data.error ||
             "Le document n'a pas pu être mis à jour.";
-          this.$emit("snackbarConfig", {message: errorMsg, type:"error"});
+          this.$emit("snackbarConfig", { message: errorMsg, type: "error" });
         } finally {
           this.loading.modifyReport = false;
         }
@@ -226,6 +288,33 @@ export default {
       console.log(response.headers["content-disposition"]);
       const filename = this.getFileName(response);
       this.downloadFile(downloadUrl, filename);
+    },
+    async deleteReport(idReport) {
+      this.loading.deleteReport = true;
+      try {
+        const response = await axios(
+          axiosConfig("DELETE", "/api/report/" + idReport)
+        );
+        this.snackbarConfig({
+          type: "success",
+          message: response.data.message,
+        });
+        this.$emit("refreshSelectedClient", this.informations);
+        this.dialogDeleteReport = false;
+      } catch (error) {
+        const message =
+          error.response.data.error || "Le document n'a pas pu être supprimer.";
+        this.snackbarConfig({
+          type: "error",
+          message: message,
+        });
+      } finally {
+        this.loading.deleteReport = false;
+      }
+    },
+    showDialogReportDelete(report) {
+      this.selectedReportForDeleting = report;
+      this.dialogDeleteReport = true;
     },
     downloadFile(downloadUrl, filename) {
       const link = document.createElement("a");

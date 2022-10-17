@@ -1,22 +1,33 @@
 <template>
   <v-container :class="$vuetify.breakpoint.smAndDown ? 'mt-12' : 'mt-4'">
-    <v-container class="text-center" v-if="activitieSelected">
-      <h1 class="text-center text-decoration-underline title-activities">
+    <v-container class="text-center" v-if="activitie">
+      <h1
+        class="
+          text-center text-decoration-underline text-h6 text-lg-h4 text-sm-h5
+          font-weight-bold
+        "
+      >
         {{ activitie.title }}
       </h1>
       <v-img
         class="mx-auto my-3"
         width="700"
-        :src="`http://localhost:3000${activitie.image}`"
+        :src="`${activitie.image}`"
       ></v-img>
       <v-card flat class="ma-auto" width="700">
-        <v-card-text v-html="content" v-for="(content, i) in activitie.contents" :key="i" class="ma-0"/>
+        <v-card-text
+          v-html="content"
+          v-for="(content, i) in activitie.contents"
+          :key="i"
+          class="ma-0"
+        />
       </v-card>
     </v-container>
 
     <!-- 404 -->
     <v-container v-else>
       <h1>Erreur 404</h1>
+      <router-link to="/">Revenir à l'accueil</router-link>
     </v-container>
   </v-container>
 </template>
@@ -31,7 +42,7 @@ export default {
   computed: {
     ...mapState(["activities"]),
     activitie() {
-      return this.activities[this.activitieSelected - 1];
+      return this.activities.find((activity) => activity.param === this.$route.params.activity)
     },
 
     route() {
@@ -61,9 +72,4 @@ export default {
 };
 </script>
 
-<style>
-.title-activities {
-  font-family: "Cinzel Decorative", cursive;
-  font-size: 25px;
-}
-</style>
+<style></style>

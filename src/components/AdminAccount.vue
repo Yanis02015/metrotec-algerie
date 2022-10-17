@@ -15,7 +15,7 @@
             <v-img contain src="../assets/metrotec-logo.png"></v-img>
           </v-avatar>
           <div>
-            <v-card-title class="text-h5">Metrotec</v-card-title>
+            <v-card-title class="text-h5">METROTEC ALGERIE</v-card-title>
 
             <v-card-subtitle class="py-0">Abderraouf HARADJ</v-card-subtitle>
             <v-card-subtitle class="py-0"
@@ -172,9 +172,22 @@
             <v-subheader>Information du client</v-subheader>
             <v-card width="100%">
               <div class="d-flex flex-wrap justify-left">
-                <v-avatar class="ma-3" size="125" tile>
-                  <v-img contain :src="selectedClient.image"></v-img>
-                </v-avatar>
+                <div style="position: relative">
+                  <v-avatar class="ma-3" size="125" tile>
+                    <v-img contain :src="selectedClient.image"></v-img>
+                  </v-avatar>
+                  <v-btn
+                    style="position: absolute; bottom: 20px; left: 0px"
+                    elevation="2"
+                    dark
+                    fab
+                    x-small
+                    color="success"
+                    @click="dialogModifyImage = true"
+                  >
+                    <v-icon dark>mdi-pencil-outline</v-icon>
+                  </v-btn>
+                </div>
                 <div>
                   <v-card-title class="text-h5">{{
                     selectedClient.company
@@ -457,17 +470,6 @@
                 </v-col>
 
                 <v-col class="pb-0" cols="12">
-                  <v-text-field
-                    dense
-                    v-model="clientModification.image"
-                    type="url"
-                    outlined
-                    label="URL de l'image de la compagnie*"
-                    required
-                  ></v-text-field>
-                </v-col>
-
-                <v-col class="pb-0" cols="12">
                   <v-textarea
                     v-model="clientModification.adress"
                     outlined
@@ -594,6 +596,67 @@
       @setIsMessageSeen="setIsMessageSeen"
       ref="DialogMessages"
     />
+
+    <!-- Modify picture -->
+    <v-dialog
+      v-model="dialogModifyImage"
+      persistent
+      max-width="600px"
+      transition="dialog-transition"
+    >
+      <v-card>
+        <v-card-title>
+          <span class="text-h5">
+            Modifier l'image {{ selectedClient.company }}
+          </span>
+        </v-card-title>
+        <v-card-text>
+          <v-form
+            @submit.prevent="modifyImage"
+            ref="formModifyImage"
+            v-model="formModifyImage"
+          >
+            <v-container grid-list-xs>
+              <v-row>
+                <v-col class="pb-0" cols="12">
+                  <v-file-input
+                    label="Fichier à importer"
+                    accept="image/png, image/jpeg, image/jpg"
+                    v-model="newImage"
+                    outlined
+                    dense
+                  ></v-file-input>
+                </v-col>
+              </v-row>
+            </v-container>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                color="grey darken-1"
+                text
+                @click="
+                  () => {
+                    dialogModifyImage = false;
+                    $refs.formModifyImage.reset();
+                    loading.modifyImage = false;
+                  }
+                "
+              >
+                Fermer
+              </v-btn>
+              <v-btn
+                type="submit"
+                color="blue darken-1"
+                text
+                :loading="loading.modifyImage"
+              >
+                Valider
+              </v-btn>
+            </v-card-actions>
+          </v-form>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -611,10 +674,12 @@ export default {
   data: () => ({
     loading: {
       addReport: false,
+      modifyImage: false,
     },
     formValidModify: true,
     formValidAddUser: true,
     formValidAddReport: true,
+    formModifyImage: true,
     clients: [],
     unseenMessages: 0,
     clientModification: {},
@@ -629,6 +694,7 @@ export default {
     dialogModifyUser: false,
     dialogNewsFullscreen: false,
     dialogMessageFullscreen: false,
+    dialogModifyImage: false,
     addUserLoading: false,
     addReportLoading: false,
     refreshClientsTableLoading: false,
@@ -814,6 +880,38 @@ export default {
         this.dialogAddReport = false;
       }
       this.loading.addReport = false;
+    },
+    async modifyImage() {
+      if (this.$refs.formModifyImage.validate()) {
+        this.loading.modifyImage = true;
+        const formData = new FormData();
+        formData.append("file", this.newImage, this.newImage.name);
+        try {
+          const response = await axios(
+            axiosConfig(
+              "PUT",
+              "/api/user/modify-image/" + this.selectedClient.idUser,
+              formData
+            )
+          );
+          this.snackbarConfig({
+            type: "success",
+            message: response.data.message,
+          });
+          this.dialogModifyImage = false;
+          this.$refs.formModifyImage.reset();
+          this.refreshSelectedClient(this.selectedClient);
+        } catch (error) {
+          const message =
+            error.response.data.error || "L'image n'a pas pu être modifier.";
+          this.snackbarConfig({
+            type: "error",
+            message: message,
+          });
+        } finally {
+          this.loading.modifyImage = false;
+        }
+      }
     },
   },
   mounted() {

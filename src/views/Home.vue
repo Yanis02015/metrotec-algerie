@@ -10,7 +10,7 @@
                   class="text-center align-center"
                   dark
                   height="100%"
-                  src="../assets/vitrine.jpeg"
+                  src="../assets/vitrine.webp"
                   gradient="to top left, rgba(0, 106, 255,.3), rgba(0, 0, 0,.8)"
                 >
                   <p
@@ -47,7 +47,7 @@
                   :class="$vuetify.breakpoint.smAndDown ? 'ma-auto' : ''"
                   height="100%"
                   :width="$vuetify.breakpoint.mdAndUp ? '100%' : '100%'"
-                  src="../assets/accreditation.jpeg"
+                  src="../assets/accreditation.webp"
                 />
               </v-card>
             </v-col>
@@ -94,7 +94,8 @@
           <v-col cols="12" md="6">
             <v-card-actions>
               <v-btn
-                @click="goToAccount"
+                to="/account"
+                @click="goToTop"
                 elevation="4"
                 outlined
                 class="mx-auto pa-5"
@@ -107,7 +108,12 @@
     </v-container>
 
     <v-container fluid class="ma-0 pa-0">
-      <h1 class="text-center text-decoration-underline title-partnaires">
+      <h1
+        class="
+          text-center text-decoration-underline text-h6 text-lg-h4 text-sm-h5
+          font-weight-bold
+        "
+      >
         Nos partenaires
       </h1>
       <v-slide-group
@@ -121,8 +127,10 @@
         >
           <v-card class="ma-2 pa-2" elevation="1">
             <v-img
+              contain
               :width="$vuetify.breakpoint.mobile ? 60 : 120"
-              :src="partnaire.url"
+              height="100%"
+              :src="'/images/store/' + partnaire.image"
             />
           </v-card>
         </v-slide-item>
@@ -137,9 +145,9 @@
     >
       <v-carousel-item
         align="center"
-        v-for="(slide, i) in activities"
+        v-for="(activity, i) in activities"
         :key="i"
-        :src="'http://localhost:3000' + slide.image"
+        :src="activity.image"
       >
         <v-sheet
           class="transparent d-flex justify-center align-center"
@@ -152,7 +160,7 @@
             height="50"
             width="100%"
           >
-            <span>{{ slide.title }}</span>
+            <span>{{ activity.title }}</span>
           </v-sheet>
         </v-sheet>
       </v-carousel-item>
@@ -162,16 +170,22 @@
     <v-divider class="my-12 mx-12"></v-divider>
 
     <v-container class="text-center ma-auto pa-0">
-      <h1 class="text-decoration-underline title-partnaires mb-5">
-        Metrotec Algerie
+      <h1
+        class="
+          text-decoration-underline text-h6 text-lg-h4 text-sm-h5
+          font-weight-bold
+          mb-5
+        "
+      >
+        METROTEC ALGERIE
       </h1>
       <v-card class="transparent my-5" flat>
-        <v-img class="mx-auto" width="350" src="../assets/accreditation.jpeg" />
+        <v-img class="mx-auto" width="350" src="../assets/accreditation.webp" />
       </v-card>
       <v-card class="ma-auto" flat width="80%">
         <span
-          >MÉTROTEC ALGÉRIE, est accréditée selon la norme ISO/CEI 17025 version
-          2017 par l’organisme algerien d’accréditation ALGERAC, pour les
+          >METROTEC ALGÉRIE, est accréditée selon la norme ISO/CEI 17025 version
+          2017 par l’organisme algérien d’accréditation ALGERAC, pour les
           activités d’étalonnage DIMENSIONNEL.</span
         >
       </v-card>
@@ -179,7 +193,7 @@
 
     <!-- adresse 
     <v-container fluid class="ma-0 pa-0">
-      <h1 class="text-center text-decoration-underline title-partnaires">
+      <h1 class="text-center text-decoration-underline text-h6 text-lg-h4 text-sm-h5 font-weight-bold">
         Adresse
       </h1>
       
@@ -195,108 +209,109 @@ export default {
   name: "Home",
   data() {
     return {
-      model: 0,
-      activiteSlides: [
-        {
-          title: "Contrôle technique APV/APG/APL/APE",
-          url: "https://images.unsplash.com/photo-1579154204845-5d7f8d4dc785?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80",
-        },
-        {
-          title: "Etalonnage et Tarage soupapes",
-          url: "https://images.unsplash.com/photo-1581087724844-037b13e16b0b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=334&q=80",
-        },
-        {
-          title: "Contrôle Non Destructif",
-          url: "https://images.unsplash.com/photo-1531935015902-64b87c1f4da5?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=376&q=80",
-        },
-        {
-          title: "Etude d'impact sur l'environnement PSI-EDD",
-          url: "https://images.unsplash.com/photo-1578496480240-32d3e0c04525?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80",
-        },
-        {
-          title: "Expertise maritimes et industrielles",
-          url: "https://images.unsplash.com/photo-1615906655593-ad0386982a0f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80",
-        },
-        {
-          title: "Accompagnement et Formations",
-          url: "https://images.unsplash.com/photo-1621463678002-1a7d3c9224f7?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80",
-        },
-      ],
       partnaires: [
         {
-          nom: "Buerkert",
-          url: "https://www.lhybride.info/media/images/iconHP/Buerkert.jpg",
+          nom: "AGRO FILM",
+          image: "agro_film.webp",
         },
         {
-          nom: "Socorex Swissth",
-          url: "https://www.lhybride.info/media/images/iconHP/Logo_Socorex_Swissth.jpg",
+          nom: "ANABIB",
+          image: "anabib.webp",
         },
         {
-          nom: "BRAND",
-          url: "https://www.lhybride.info/media/images/iconHP/BRAND.gif",
+          nom: "AQS",
+          image: "aqs.webp",
         },
         {
-          nom: "EAS",
-          url: "https://www.lhybride.info/media/images/iconHP/Logo_EAS.jpg",
+          nom: "CEVITAL",
+          image: "cevital.webp",
         },
         {
-          nom: "Batailler",
-          url: "https://www.lhybride.info/media/images/iconHP/batailler.jpg",
+          nom: "COMET",
+          image: "comet.webp",
         },
         {
-          nom: "Waters",
-          url: "https://www.lhybride.info/media/images/iconHP/Waters_logo.jpg",
+          nom: "CONDOR",
+          image: "condor.webp",
         },
         {
-          nom: "Huber",
-          url: "https://www.lhybride.info/media/images/iconHP/Huber_Logo_140.jpg",
+          nom: "ELSEWEDY ELECTRIC",
+          image: "ee.webp",
         },
         {
-          nom: "Anton Paar",
-          url: "https://www.lhybride.info/media/images/iconHP/anton-paar-logo-th.jpg",
+          nom: "EMB",
+          image: "emb.webp",
         },
         {
-          nom: "GERSTEL",
-          url: "https://www.lhybride.info/media/images/iconHP/GERSTEL-140_70.png",
+          nom: "ENAC",
+          image: "enac.webp",
         },
         {
-          nom: "Promega",
-          url: "https://www.lhybride.info/media/images/iconHP/PromegaLogo.jpg",
+          nom: "ENACT",
+          image: "enact.webp",
         },
         {
-          nom: "VWR Interim",
-          url: "https://www.lhybride.info/media/images/iconHP/VWR_InterimLogo-th.jpg",
+          nom: "ENAFOR",
+          image: "enafor.webp",
         },
         {
-          nom: "FST",
-          url: "https://www.lhybride.info/media/images/iconHP/FST-logobth2.jpg",
+          nom: "ENIE",
+          image: "enie.webp",
         },
         {
-          nom: "Belleville",
-          url: "https://www.lhybride.info/media/images/iconHP/bellevilleG.jpg",
+          nom: "ENTP",
+          image: "entp.webp",
         },
         {
-          nom: "Enzo",
-          url: "https://www.lhybride.info/media/images/iconHP/enzo.png",
+          nom: "FSP",
+          image: "fsp.webp",
         },
         {
-          nom: "Lauda",
-          url: "https://www.lhybride.info/media/images/iconHP/lauda18.jpg",
+          nom: "GEANR",
+          image: "geant.webp",
         },
         {
-          nom: "BHmettler",
-          url: "https://www.lhybride.info/media/images/iconHP/BHmettler.jpg",
+          nom: "GUEDILA",
+          image: "guedila.webp",
+        },
+        {
+          nom: "IRIS",
+          image: "iris.webp",
+        },
+        {
+          nom: "KPLAT TUBES",
+          image: "k-plast-tubes.webp",
+        },
+        {
+          nom: "KPLAT CÂBLES",
+          image: "k-plast-cables.webp",
+        },
+        {
+          nom: "LTPE",
+          image: "ltpe.webp",
+        },
+        {
+          nom: "MERIPLAST",
+          image: "meriplast.webp",
+        },
+        {
+          nom: "NAFTAL",
+          image: "naftal.webp",
+        },
+        {
+          nom: "GROUPE SAIDAL",
+          image: "saidal.webp",
+        },
+        {
+          nom: "VERITAL",
+          image: "verital.webp",
         },
       ],
-      urlImageAcrditation: "../assets/accreditation.jpeg",
     };
   },
   methods: {
-    goToAccount() {
-      if (this.$router.currentRoute.fullPath !== "/account") {
-        this.$router.replace("/account");
-        window.scrollTo(0, 0);
-      }
+    goToTop() {
+      window.scrollTo({ top: 0, behavior: "smooth" });
     },
   },
   computed: {
@@ -306,11 +321,6 @@ export default {
 </script>
 
 <style scoped>
-.title-partnaires {
-  font-family: "Cinzel Decorative", cursive;
-  font-size: 25px;
-}
-
 .slogan {
   font-weight: 700;
   text-shadow: 1px 1px 3px #000000;

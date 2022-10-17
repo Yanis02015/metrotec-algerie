@@ -8,7 +8,8 @@ export default new Vuex.Store({
     activities: [
       {
         title: "Dimensionnel",
-        image: "/images/services/dimensionnel.jpeg",
+        param: "dimensionnel",
+        image: "/images/services/dimensionnel.webp",
         contents: [
           "Le laboratoire étalonne tous les instruments de mesure dimensionnel. L'étalonnage de vos instruments de mesure permet de les raccorder au système d'unités international et d'assurer la traçabilité métrologique de vos mesures.",
           "Accrédité ALGERAC (<a target='_blank' href='/images/services/accreditation.jpeg'>Accréditation</a> / <a target='_blank' href='#'>Annexe technique</a>)",
@@ -18,35 +19,40 @@ export default new Vuex.Store({
       },
       {
         title: "Température",
-        image: "/images/services/temperature.jpeg",
+        param: "temperature",
+        image: "/images/services/temperature.webp",
         contents: [
           "Le laboratoire étalonne tous les instruments de mesure de température. La chaine d'étalonnage et les méthodes mises en place permettent le raccordement au Système International d’unités (SI) de la quasi-totalité des instruments.",
         ],
       },
       {
         title: "Pression",
-        image: "/images/services/pression.png",
+        param: "pression",
+        image: "/images/services/pression.webp",
         contents: [
           "Le laboratoire étalonne tous les instruments de mesure de pression. La chaine d'étalonnage et les méthodes mises en place permettent le raccordement au Système International d’unités (SI) de la quasi-totalité des instruments.",
         ],
       },
       {
         title: "Torque",
-        image: "/images/services/torque.jpeg",
+        param: "torque",
+        image: "/images/services/torque.webp",
         contents: [
           "L'étalonnage de vos instruments de mesure permet de les raccorder au système d'unités international et d'assurer la traçabilité métrologique de vos mesures. Notre banc des couples permet la détermination de la justesse de vos instruments jusqu'à 550 N.m.",
         ],
       },
       {
         title: "Balance",
-        image: "/images/services/balance.jpeg",
+        param: "balance",
+        image: "/images/services/balance.webp",
         contents: [
           "Le laboratoire étalonne tous les instruments de mesure de balance. La chaine d'étalonnage et les méthodes mises en place permettent le raccordement au Système International d’unités (SI) de la quasi-totalité des instruments.",
         ],
       },
       {
         title: "Formation",
-        image: "/images/services/formation.jpg",
+        param: "formation",
+        image: "/images/services/formation.webp",
         contents: [
           "Le laboratoire <strong>METROTEC ALGERIE</strong> assure des formations et accompagnement dans <strong>le domaine de métrologie quel que soit votre activité.</strong>",
         ],

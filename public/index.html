@@ -1,25 +1,48 @@
 <!DOCTYPE html>
 <html lang="fr">
   <head>
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-FBW6LE82JQ"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-FBW6LE82JQ");
+    </script>
+
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <link rel="icon" href="<%= BASE_URL %>metrotec-logo.png" />
-    <title><%= htmlWebpackPlugin.options.title %></title>
+    <meta
+      name="description"
+      content="Laboratoire d'étalonnage et vérification accrédité par l'organisme ALGERAC selon les exigence - Cooperative EL Aouras section 40 ilot 93 Bordj Bou Arreridj"
+    />
+    <title>Laboratoire d'étalonnage et vérification | METROTEC ALGERIE</title>
     <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@700"
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900"
+      media="print"
     />
     <link
+      href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css"
       rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css"
+      media="print"
+      onload="this.media='all'"
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&display=swap"
-      rel="stylesheet"
-    />
+    <style>
+      .html {
+        scroll-behavior: smooth;
+      }
+    </style>
   </head>
   <body>
     <noscript>

@@ -1,8 +1,13 @@
 <template>
   <v-container :class="$vuetify.breakpoint.smAndDown ? 'mt-12' : 'mt-4'">
+    <!-- Mot du président -->
     <h1
       v-if="$vuetify.breakpoint.smAndDown"
-      class="my-5 text-center text-decoration-underline title-presentation"
+      class="
+        my-5
+        text-center text-decoration-underline text-h6 text-lg-h4 text-sm-h5
+        font-weight-bold
+      "
     >
       Mot du président
     </h1>
@@ -14,6 +19,7 @@
       flat
     >
       <img
+        v-if="false"
         class="ma-auto"
         :width="$vuetify.breakpoint.xs ? '300' : '500'"
         src="https://media.istockphoto.com/photos/in-his-office-picture-id597241066"
@@ -22,7 +28,10 @@
     <v-container>
       <h1
         v-if="!$vuetify.breakpoint.smAndDown"
-        class="text-center text-decoration-underline title-presentation"
+        class="
+          text-center text-decoration-underline text-h6 text-lg-h4 text-sm-h5
+          font-weight-bold
+        "
       >
         Mot du président
       </h1>
@@ -37,17 +46,19 @@
           <strong>« Qualité, maîtrise et fiabilité...»</strong> : c’est notre
           slogan que, quotidiennement, nous souhaitons traduire et réaliser avec
           nos clients, nos fournisseurs et nos partenaires. <br /><br />
-          L’activité est assurée par des responsables techniques et ingénieurs
-          métrologues expérimentés et habilités.
+          L’activité est assurée par des spécialistes qualifiés en métrologie
+          dans différents domaines : Température , pesage, pression et
+          Electricité etc .
           <br /><br />
-          Ce qui nous démarque : un constat fidèle du réel, du présent,
-          objectif, analysé et constamment projeté vers l’avenir.
+          Cette marge de possibilité vous permet d’avoir un large choix qui
+          répond au mieux que possible à votre besoin en étalonnage accrédité
+          ISO/CEI Algerac 17025 :2017.
           <br /><br />
-          Nous investissons chaque année pour renouveler notre parc d’étalons,
+          Nous investissons chaque année pour renouveler notre parc d’étalons ,
           moderniser nos laboratoires, mettre au point des solutions ainsi que
-          former nos professionnels. Ces investissements nous permettent de
-          renforcer notre excellence technique et notre présence dans le domaine
-          de la métrologie.
+          former nos professionnels. Ces investissements Cette démarche nous
+          permet de renforcer en continue notre excellence nos compétences
+          technique dans le domaine de la métrologie.
           <br /><br />
           Au plaisir de vous lire !
           <br /><br />
@@ -61,7 +72,12 @@
 
     <!-- Politique -->
     <v-container>
-      <h1 class="text-center text-decoration-underline title-presentation">
+      <h1
+        class="
+          text-center text-decoration-underline text-h6 text-lg-h4 text-sm-h5
+          font-weight-bold
+        "
+      >
         Politique de l'entreprise
       </h1>
       <v-card flat class="transparent text-president">
@@ -126,10 +142,71 @@
     </v-container>
 
     <v-divider class="mx-16 my-5"></v-divider>
+    
+    <!-- Hommage -->
+    <h1
+      v-if="$vuetify.breakpoint.smAndDown"
+      class="
+        my-5
+        text-center text-decoration-underline text-h6 text-lg-h4 text-sm-h5
+        font-weight-bold
+      "
+    >
+      Hommage au défunt Monsieur BEN HASSEN Zouheir
+    </h1>
+    <v-card
+      class="text-center"
+      :class="
+        $vuetify.breakpoint.smAndDown ? 'image-president-md' : 'image-president'
+      "
+      flat
+    >
+      <img
+        class="ma-auto"
+        :width="$vuetify.breakpoint.xs ? '300' : '350'"
+        src="../assets/zouheir.webp"
+      />
+    </v-card>
+    <v-container>
+      <h1
+        v-if="!$vuetify.breakpoint.smAndDown"
+        class="
+          text-center text-decoration-underline text-h6 text-lg-h4 text-sm-h5
+          font-weight-bold
+        "
+      >
+        Hommage au défunt Monsieur BEN HASSEN Zouheir
+      </h1>
+      <v-card flat class="transparent text-president">
+        <v-card-text class="text-body-1 grey--text text--darken-3">
+          Au nom de toute l’équipe de MEROTEC ALGERIE, nous te rendons hommage à
+          toi Monsieur ZOHEIR, et nous témoignons par l’exemplarité de ta
+          carrière durant toutes les années passées à travailler à tes côtés, tu
+          nous as laissés pour toujours le souvenir d’un homme qui a toujours
+          donné sans recevoir, un homme intègre, un homme droit avec un grand
+          cœur.
+          <br /><br />
+          Mourir n’est point mourir, mourir n’est point disparaître, mourir sur
+          terre, c'est renaître dans un monde plus beau et meilleur.
+          <br /><br />
+          <strong>« Que Dieu t’accueille en son vaste paradis »</strong>
+          <br /><br />
+          Personnel de METROTEC ALGERIE
+        </v-card-text>
+      </v-card>
+    </v-container>
+
+    <v-divider class="mx-16 my-5"></v-divider>
 
     <!-- Adresse -->
     <v-container>
-      <h1 class="text-center text-decoration-underline title-presentation mb-8">
+      <h1
+        class="
+          text-center text-decoration-underline text-h6 text-lg-h4 text-sm-h5
+          font-weight-bold
+          mb-8
+        "
+      >
         Adresse des locaux
       </h1>
       <v-row class="mx-auto">
@@ -144,7 +221,13 @@
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn href="https://www.google.com/maps?ll=36.076903,4.749377&z=16&t=m&hl=fr&gl=DZ&mapclient=embed&cid=5326665031137400845" target="_blank" class="brown--text" text plain>
+              <v-btn
+                href="https://www.google.com/maps?ll=36.076903,4.749377&z=16&t=m&hl=fr&gl=DZ&mapclient=embed&cid=5326665031137400845"
+                target="_blank"
+                class="brown--text"
+                text
+                plain
+              >
                 Voir sur Google maps
                 <v-icon class="mb-1" size="22"> mdi-map-marker </v-icon>
               </v-btn>
@@ -213,19 +296,19 @@ export default {
         "Chers partenaires, Nous sommes particulièrement heureux de vous accueillir sur notre site web, pour une relation de proximité et aussi pour s’inscrire dans une relation d’échange perpétuel et constructif avec vous. « Qualité, maîtrise et fiabilité...» : c’est notre slogan que, quotidiennement, nous souhaitons traduire et réaliser avec nos clients, nos fournisseurs et nos partenaires. L’activitée est assurée par des responsables techniques et ingénieurs métrologues expérimentés et habilités. Ce qui nous démarque : un constat fidèle du réel, du présent, objectif, analysé et constamment projeté vers l’avenir. Nous investissons chaque année pour renouveler notre parc d’étalons, moderniser nos laboratoires, mettre au point des solutions ainsi que former nos professionnels. Ces investissements nous permettent de renforcer notre excellence technique et notre présence dans le domaine de la métroogie. Au plaisir de vous lire ! Sincèrement, **HARADJ Abderraouf** directeur générale du laboratoire",
       imagesBBA: [
         {
-          url: "metrotec-bureau/exterieur.jpeg",
+          url: "metrotec-bureau/exterieur.webp",
           alt: "Extérieur",
         },
         {
-          url: "metrotec-bureau/vitrine.jpeg",
+          url: "metrotec-bureau/vitrine.webp",
           alt: "Vitrine",
         },
         {
-          url: "metrotec-bureau/laboratoire.jpeg",
+          url: "metrotec-bureau/laboratoire.webp",
           alt: "Entré laboratoire",
         },
         {
-          url: "metrotec-bureau/reception.jpeg",
+          url: "metrotec-bureau/reception.webp",
           alt: "Réception",
         },
       ],
@@ -252,10 +335,6 @@ export default {
 .text-president {
   text-align: justify;
   /* text-indent: 2em; */
-}
-.title-presentation {
-  font-family: "Cinzel Decorative", cursive;
-  font-size: 25px;
 }
 
 .list-politique li {

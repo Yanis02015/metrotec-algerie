@@ -16,33 +16,36 @@ const routes = [
     path: "/",
     name: "Home",
     component: Home,
-  },
-  {
-    path: "/about",
-    name: "About",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue"),
+    meta: {
+      title: "Laboratoire d'étalonnage et vérification | METROTEC ALGERIE",
+    },
   },
   {
     path: "/news",
     name: "News",
     component: News,
+    meta: {
+      title: "Actualité METROTEC ALGERIE",
+    },
   },
   {
     path: "/presentation",
     name: "Presentation",
     component: Presentation,
+    meta: {
+      title: "Présentation et Mot du président | METROTEC ALGERIE",
+    },
   },
   {
     path: "/activities",
     name: "Activities",
     component: Activities,
+    meta: {
+      title: "Dimensionnel - Température - Pression... | METROTEC ALGERIE",
+    },
   },
   {
-    path: "/activities/:item",
+    path: "/activities/:activity",
     name: "ActivitieItem",
     component: ActivitieItem,
   },
@@ -50,16 +53,25 @@ const routes = [
     path: "/contact",
     name: "Contact",
     component: Contact,
+    meta: {
+      title: "Nous contacter | METROTEC ALGERIE",
+    },
   },
   {
     path: "/account",
     name: "Login",
     component: UserLogin,
+    meta: {
+      title: "Se connecter à votre compte | METROTEC ALGERIE",
+    },
   },
   {
     path: "/admin",
     name: "AdminLogin",
     component: AdminLogin,
+    meta: {
+      title: "Tableau de bord administrateur | METROTEC ALGERIE",
+    },
   },
 ];
 

@@ -5,7 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "buildForServe": "vue-cli-service build --dest ../metrotec-algerie-backend/dist",
+    "build-serve": "vue-cli-service build --dest ../metrotec-algerie-backend/dist",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {

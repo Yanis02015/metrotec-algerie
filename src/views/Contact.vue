@@ -1,10 +1,17 @@
 <template>
   <v-container :class="$vuetify.breakpoint.smAndDown ? 'mt-12' : 'mt-4'">
-    <h1 class="text-center text-decoration-underline title-contact mb-10 mt-5">
+    <h1
+      class="
+        text-center text-decoration-underline text-h6 text-lg-h4 text-sm-h5
+        font-weight-bold
+        mb-10
+        mt-5
+      "
+    >
       Nous contacter
     </h1>
     <v-container>
-      <v-form ref="form" v-model="valid">
+      <v-form :disabled="sending" ref="form" v-model="valid">
         <v-container>
           <v-row>
             <v-col cols="12" md="4">
@@ -67,14 +74,26 @@
               ></v-textarea>
             </v-col>
           </v-row>
-          <v-btn :disabled="!valid" color="success" @click="validate">
+          <v-btn
+            :disabled="!valid"
+            :loading="sending"
+            color="success"
+            @click="validate"
+          >
             Validate
           </v-btn>
         </v-container>
       </v-form>
     </v-container>
 
-    <h1 class="text-center text-decoration-underline title-contact mb-10 mt-5">
+    <h1
+      class="
+        text-center text-decoration-underline text-h6 text-lg-h4 text-sm-h5
+        font-weight-bold
+        mb-10
+        mt-5
+      "
+    >
       Adresse
     </h1>
     <v-row class="text-center">
@@ -188,10 +207,12 @@
 <script>
 import axios from "axios";
 import axiosConfig from "../configurations/axiosConfig";
+import { mapActions } from "vuex";
 
 export default {
   data: () => ({
     valid: false,
+    sending: false,
     message: {
       name: "",
       company: "",
@@ -211,19 +232,19 @@ export default {
     },
     imagesBBA: [
       {
-        url: "metrotec-bureau/exterieur.jpeg",
+        url: "metrotec-bureau/exterieur.webp",
         alt: "Extérieur",
       },
       {
-        url: "metrotec-bureau/vitrine.jpeg",
+        url: "metrotec-bureau/vitrine.webp",
         alt: "Vitrine",
       },
       {
-        url: "metrotec-bureau/laboratoire.jpeg",
+        url: "metrotec-bureau/laboratoire.webp",
         alt: "Entré laboratoire",
       },
       {
-        url: "metrotec-bureau/reception.jpeg",
+        url: "metrotec-bureau/reception.webp",
         alt: "Réception",
       },
     ],
@@ -250,25 +271,33 @@ export default {
   }),
   methods: {
     async validate() {
-      // TODO DELETE
       this.$refs.form.validate();
       if (this.valid) {
+        this.sending = true;
         try {
-          await axios(axiosConfig("POST", "/api/message/", this.message));
-          alert("Message envoyé avec succées");
+          const response = await axios(
+            axiosConfig("POST", "/api/message/", this.message)
+          );
+          this.snackbarConfig({
+            type: "success",
+            message: response.data.message,
+          });
           this.$refs.form.reset();
         } catch (error) {
-          // alert("Erreur");
+          const message =
+            error.response.data.error || "La requête n'a pas pu être envoyé.";
+          this.snackbarConfig({
+            type: "error",
+            message: message,
+          });
+        } finally {
+          this.sending = false;
         }
       }
     },
+    ...mapActions(["snackbarConfig"]),
   },
 };
 </script>
 
-<style>
-.title-contact {
-  font-family: "Cinzel Decorative", cursive;
-  font-size: 25px;
-}
-</style>
+<style></style>

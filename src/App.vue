@@ -11,14 +11,18 @@
       <v-row>
         <v-col cols="12" class="d-flex justify-center align-center">
           <div class="d-flex align-center">
-            <router-link to="/" v-if="!$vuetify.breakpoint.smAndDown">
+            <router-link
+              aria-label="Revenir à la home page"
+              to="/"
+              v-if="!$vuetify.breakpoint.smAndDown"
+            >
               <v-img
                 alt="Metrotec Logo"
                 class="shrink mt-1"
                 transition="scale-transition"
                 contain
                 min-width="100"
-                src="./assets/metrotec-logo-name.png"
+                src="./assets/metrotec-logo-name.webp"
                 width="200"
               />
             </router-link>
@@ -39,13 +43,13 @@
         tile
       >
         <v-card id="logoTopOnMobile" elevation="5">
-          <router-link to="/">
+          <router-link to="/" aria-label="Revenir à la home page">
             <v-img
               v-if="true"
               alt="Metrotec Logo"
               class="shrink ma-2"
               transition="scale-transition"
-              src="./assets/metrotec-logo-name.png"
+              src="./assets/metrotec-logo-name.webp"
               width="200"
             />
           </router-link>
@@ -61,19 +65,27 @@
         :shift="$vuetify.breakpoint.smAndDown"
         :fixed="$vuetify.breakpoint.smAndDown"
       >
-        <v-btn @click="goToHome" id="bottom-navigation-bug-couleur">
+        <v-btn to="/" @click="goToTop" class="bottom-navigation-bug-couleur">
           <span>Accueil</span>
 
           <v-icon class="mb-1">mdi-home</v-icon>
         </v-btn>
 
-        <v-btn @click="goToNews" id="bottom-navigation-bug-couleur">
+        <v-btn
+          to="/news"
+          @click="goToTop"
+          class="bottom-navigation-bug-couleur"
+        >
           <span>Actualités</span>
 
           <v-icon class="mb-1">mdi-newspaper</v-icon>
         </v-btn>
 
-        <v-btn @click="goToPresentation" id="bottom-navigation-bug-couleur">
+        <v-btn
+          to="/presentation"
+          @click="goToTop"
+          class="bottom-navigation-bug-couleur"
+        >
           <span>Présentation</span>
 
           <v-icon class="mb-1">mdi-creation</v-icon>
@@ -89,8 +101,9 @@
             <v-btn
               v-bind="attrs"
               v-on="on"
-              @click="goToActivities"
-              id="bottom-navigation-bug-couleur"
+              to="/activities"
+              @click="goToTop"
+              class="bottom-navigation-bug-couleur"
             >
               <span>
                 Étalonnage
@@ -108,7 +121,8 @@
 
           <v-list>
             <v-list-item
-              @click="goToActivitiesMenu(index + 1)"
+              :to="`/activities/${item.param}`"
+              @click="goToTop"
               v-for="(item, index) in activities"
               :key="index"
               link
@@ -120,15 +134,20 @@
 
         <v-btn
           v-if="$vuetify.breakpoint.mdAndUp"
-          @click="goToContact"
-          id="bottom-navigation-bug-couleur"
+          to="/contact"
+          @click="goToTop"
+          class="bottom-navigation-bug-couleur"
         >
           <span>Contact</span>
 
           <v-icon class="mb-1">mdi-email</v-icon>
         </v-btn>
 
-        <v-btn @click="goToAccount" id="bottom-navigation-bug-couleur">
+        <v-btn
+          to="/account"
+          @click="goToTop"
+          class="bottom-navigation-bug-couleur"
+        >
           <span>Mon compte</span>
 
           <v-icon class="mb-1">mdi-account</v-icon>
@@ -151,12 +170,12 @@
             tile
             elevation="0"
           >
-            <router-link to="/">
+            <router-link to="/" aria-label="Revenir à la home page">
               <v-card class="transparent mx-auto mt-9 pa-3" width="270" flat>
                 <v-img
                   class="ma-auto"
                   width="100%"
-                  src="./assets/metrotec-logo-name.png"
+                  src="./assets/metrotec-logo-name.webp"
                 />
               </v-card>
             </router-link>
@@ -168,19 +187,26 @@
           <v-divider class="mx-16"></v-divider>
 
           <v-card-text>
-            <v-btn
+            <a
+              :href="icon.link"
+              target="_blank"
+              :title="icon.name"
               v-for="icon in icons"
               :key="icon.name"
-              class="mx-4 grey--text text--darken-2"
-              icon
-              plain
             >
-              <v-hover v-slot="{ hover }">
-                <v-icon :color="hover ? icon.color : ''" size="24px">
-                  {{ icon.name }}
-                </v-icon>
-              </v-hover>
-            </v-btn>
+              <v-btn
+                class="mx-4 grey--text text--darken-2"
+                icon
+                :aria-label="icon.ariaLabel"
+                plain
+              >
+                <v-hover v-slot="{ hover }">
+                  <v-icon :color="hover ? icon.color : ''" size="24px">
+                    {{ icon.name }}
+                  </v-icon>
+                </v-hover>
+              </v-btn>
+            </a>
           </v-card-text>
 
           <v-row class="grey--text text--darken-4 ma-0">
@@ -203,18 +229,18 @@
                   "
                   class="pt-0 text-left"
                 >
-                  METROTEC ALGÉRIE est une SARL, résidente au capital de 100,000
-                  DA, qui a été créée en 2014, située à Bordj Bou Arreridj
-                  (34000) en Algérie, accréditée par l’organisme algerien
-                  d’accréditation ALGERAC, pour les activités d’étalonnage
-                  DIMENSIONNEL :
+                  METROTEC ALGÉRIE est une SARL, résidente au capital de
+                  100.000&nbsp;DA, qui a été créé en 2014, située à Bordj Bou
+                  Arreridj (34000) en Algérie, accréditée par l’organisme
+                  algérien d’accréditation ALGERAC, pour les activités
+                  d’étalonnage DIMENSIONNEL :
                   <br /><br />
-                  * Pour sa premiere fois en 2019 selon la norme ISO/CEI 17025
+                  * Pour sa première fois en 2019 selon la norme ISO/CEI 17025
                   version 2005 (initiale)
                   <br />
-                  * Decembre 2020 ISO/CEI 17025 version 2017 nouvelle version
+                  * Décembre 2020 ISO/CEI 17025 version 2017 nouvelle version
                   <br />
-                  * Et en mai 2022 ISO/CEI 17025 version 2017 pour sa deuxieme
+                  * Et en mai 2022 ISO/CEI 17025 version 2017 pour sa deuxième
                   fois (renouvellement)
                 </v-card-text>
               </v-col>
@@ -231,6 +257,7 @@
                   style="margin-top: -8px; transition: all 1.2s"
                   flat
                 ></v-card>
+
                 <v-card-text
                   v-for="(item, index) in activities"
                   :key="index"
@@ -241,7 +268,13 @@
                   "
                   class="pt-0 text-left"
                 >
-                  {{ index + 1 }} - {{ item.title }}
+                  <Link
+                    :href="`/activities/${item.param}`"
+                    :text="`${index + 1} - ${item.title}`"
+                    :color="colorText"
+                    :title="`Etalonnage en ${item.title}`"
+                    routerLink
+                  />
                 </v-card-text>
               </v-col>
             </v-hover>
@@ -271,16 +304,33 @@
                     >Téléphone</v-subheader
                   >
                   <v-card-text class="ml-5">
-                    <a href="tel:+21335768414">+213 (0) 35 76 84 14</a>
+                    <Link
+                      :href="'tel:+21335768414'"
+                      :text="'+213 (0) 35 76 84 14'"
+                      :color="colorText"
+                    />
+
                     <br />
-                    <a href="tel:+21334803559"
-                      >+213 (0) 34 80 35 59 (annexe Béjaïa)</a
-                    >
+                    <Link
+                      :href="'tel:+21334803559'"
+                      :text="'+213 (0) 34 80 35 59'"
+                      :color="colorText"
+                    />
+                    <span>&ensp;(annexe Béjaïa)</span>
+
                     <br />
                     <br />
-                    <a href="tel:+213663017897">+213 (0) 663 017 897</a>
+                    <Link
+                      :href="'tel:+213663017897'"
+                      :text="'+213 (0) 663 017 897'"
+                      :color="colorText"
+                    />
                     <br />
-                    <a href="tel:+213542228088">+213 (0) 542 228 088</a>
+                    <Link
+                      :href="'tel:+213542228088'"
+                      :text="'+213 (0) 542 228 088'"
+                      :color="colorText"
+                    />
                   </v-card-text>
                   <v-subheader
                     :class="hover ? 'text-decoration-underline' : ''"
@@ -288,9 +338,19 @@
                     >Fax</v-subheader
                   >
                   <v-card-text class="ml-5">
-                    +213 (0) 35 76 84 14
+                    <Link
+                      :href="'tel:+21335768414'"
+                      :text="'+213 (0) 35 76 84 14'"
+                      :color="colorText"
+                    />
+
                     <br />
-                    +213 (0) 34 80 35 59 (annexe Béjaïa)
+                    <Link
+                      :href="'tel:+21334803559'"
+                      :text="'+213 (0) 34 80 35 59'"
+                      :color="colorText"
+                    />
+                    <span> (annexe Béjaïa)</span>
                   </v-card-text>
 
                   <v-subheader
@@ -299,11 +359,23 @@
                     >E-mail</v-subheader
                   >
                   <v-card-text class="ml-5">
-                    contact.metrotecalgerie@gmail.com
+                    <Link
+                      :href="'mailto:contact@metrotec-algerie.com'"
+                      :text="'contact@metrotec-algerie.com'"
+                      :color="colorText"
+                    />
                     <br />
-                    rh.metrotecalgerie@gmail.com
+                    <Link
+                      :href="'mailto:a.haradj@metrotec-algerie.com'"
+                      :text="'a.haradj@metrotec-algerie.com'"
+                      :color="colorText"
+                    />
                     <br />
-                    metrotec_algerie@yahoo.fr
+                    <Link
+                      :href="'mailto:i.touloum@metrotec-algerie.com'"
+                      :text="'i.touloum@metrotec-algerie.com'"
+                      :color="colorText"
+                    />
                   </v-card-text>
                 </v-card-text>
               </v-col>
@@ -324,7 +396,11 @@
                   class="d-flex align-center"
                 >
                   <v-avatar class="mr-3" size="40">
-                    <img alt="yanis.indt" src="./assets/yanis-indt-logo.jpg" />
+                    <img
+                      alt="yanis.indt"
+                      style="width: 40px; height: 40px"
+                      src="./assets/yanis-indt-logo.webp"
+                    />
                   </v-avatar>
                   <v-card class="transparent" tile elevation="0">
                     <v-list-item-content
@@ -366,7 +442,15 @@
         "
         class="elevation-button-contact"
       >
-        <v-btn @click="goToContact" class="mx-2" fab dark :color="color">
+        <v-btn
+          to="/contact"
+          @click="goToTop"
+          class="mx-2"
+          fab
+          dark
+          :color="color"
+          aria-label="Nous contacter | Envoyer une demande"
+        >
           <v-icon dark> mdi-email</v-icon>
         </v-btn>
       </div>
@@ -400,6 +484,7 @@
 
 <script>
 import { mapState } from "vuex";
+import Link from "./components/Link.vue";
 
 export default {
   name: "App",
@@ -408,73 +493,33 @@ export default {
       {
         name: "mdi-facebook",
         color: "blue darken-3",
+        ariaLabel: "Nous rejoindre sur facebook",
+        link: "https://www.facebook.com/people/Metrotec-Algerie/100063672957265/",
       },
       {
         name: "mdi-twitter",
         color: "light-blue accent-3",
+        ariaLabel: "Nous rejoindre sur twitter",
+        link: "#",
       },
       {
         name: "mdi-linkedin",
         color: "light-blue darken-2",
+        ariaLabel: "Nous rejoindre sur linkedin",
+        link: "#",
       },
       {
         name: "mdi-instagram",
         color: "pink accent-4",
+        ariaLabel: "Nous rejoindre sur instagram",
+        link: "#",
       },
-    ],
-    items: [
-      "Dimensionnelle",
-      "Pression",
-      "Température",
-      "Balance et Masse",
-      "Force",
     ],
     modelBottomNavigation: 0,
   }),
   methods: {
-    goToHome() {
-      if (this.$router.currentRoute.fullPath !== "/") {
-        this.$router.replace("/");
-        window.scrollTo(0, 0);
-      }
-    },
-    goToNews() {
-      if (this.$router.currentRoute.fullPath !== "/news") {
-        this.$router.replace("/news");
-        window.scrollTo(0, 0);
-      }
-    },
-    goToPresentation() {
-      console.log(this.$router.currentRoute.fullPath);
-      if (this.$router.currentRoute.fullPath !== "/presentation") {
-        this.$router.replace("/presentation");
-        window.scrollTo(0, 0);
-      }
-    },
-    goToActivities() {
-      if (this.$router.currentRoute.fullPath !== "/activities") {
-        this.$router.replace("/activities");
-        window.scrollTo(0, 0);
-      }
-    },
-    goToActivitiesMenu(i) {
-      if (this.$router.currentRoute.fullPath !== "/activities/" + i) {
-        let url = "/activities/" + i;
-        this.$router.replace(url);
-        window.scrollTo(0, 0);
-      }
-    },
-    goToContact() {
-      if (this.$router.currentRoute.fullPath !== "/contact") {
-        this.$router.replace("/contact");
-        window.scrollTo(0, 0);
-      }
-    },
-    goToAccount() {
-      if (this.$router.currentRoute.fullPath !== "/account") {
-        this.$router.replace("/account");
-        window.scrollTo(0, 0);
-      }
+    goToTop() {
+      window.scrollTo({ top: 0, behavior: "smooth" });
     },
   },
   computed: {
@@ -540,8 +585,30 @@ export default {
     ...mapState(["snackbarInformation", "activities"]),
   },
   beforeMount() {
+    this.$route;
     this.modelBottomNavigation = this.navBarItemSelected;
   },
+  watch: {
+    $route: {
+      handler(to) {
+        if (to.name === "ActivitieItem") {
+          console.log(to.params.activity);
+          return (document.title =
+            `${
+              this.activities.find(
+                (activity) => activity.param === this.$route.params.activity
+              ).title
+            } | METROTEC ALGERIE` ||
+            "Laboratoire d'étalonnage et vérification | METROTEC ALGERIE");
+        }
+        document.title =
+          to.meta.title ||
+          "Laboratoire d'étalonnage et vérification | METROTEC ALGERIE";
+      },
+      immediate: true
+    },
+  },
+  components: { Link },
 };
 </script>
 
@@ -555,14 +622,14 @@ a {
   text-decoration: none;
 }
 #logoTopOnMobile {
-  background: center/200% url("./assets/white-background.jpeg");
+  background: center/200% url("./assets/white-background.webp");
   position: absolute;
   z-index: 99;
   border: 3px solid white;
 }
 
 #background-footer {
-  background: repeat-y top/100% url("./assets/white-background.jpeg");
+  background: repeat-y top/100% url("./assets/white-background.webp");
 }
 /*
 #background-footer:hover {
@@ -570,7 +637,7 @@ a {
     url("https://images.unsplash.com/photo-1582738411706-bfc8e691d1c2?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=334&amp;q=80");
 }
 */
-#bottom-navigation-bug-couleur {
+.bottom-navigation-bug-couleur {
   background-color: transparent !important;
   height: inherit !important;
 }
