@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "build-serve": "vue-cli-service build --dest ../metrotec-algerie-backend/dist",
+    "serve": "export NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service serve",
+    "build": "export NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service build",
+    "build-serve": "export NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service build --dest ../metrotec-algerie-backend/dist",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {

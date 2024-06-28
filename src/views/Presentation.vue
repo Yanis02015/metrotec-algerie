@@ -19,10 +19,9 @@
       flat
     >
       <img
-        v-if="false"
         class="ma-auto"
-        :width="$vuetify.breakpoint.xs ? '300' : '500'"
-        src="https://media.istockphoto.com/photos/in-his-office-picture-id597241066"
+        :width="$vuetify.breakpoint.xs ? '300' : '450'"
+        src="/a-haradj.jpeg"
       />
     </v-card>
     <v-container>
@@ -47,8 +46,8 @@
           slogan que, quotidiennement, nous souhaitons traduire et réaliser avec
           nos clients, nos fournisseurs et nos partenaires. <br /><br />
           L’activité est assurée par des spécialistes qualifiés en métrologie
-          dans différents domaines : Température , pesage, pression et
-          Electricité etc .
+          dans différents domaines : Dimensionnel, Température , Pesage, Pression et
+          Électricité etc .
           <br /><br />
           Cette marge de possibilité vous permet d’avoir un large choix qui
           répond au mieux que possible à votre besoin en étalonnage accrédité
@@ -179,7 +178,7 @@
       </h1>
       <v-card flat class="transparent text-president">
         <v-card-text class="text-body-1 grey--text text--darken-3">
-          Au nom de toute l’équipe de MEROTEC ALGERIE, nous te rendons hommage à
+          Au nom de toute l’équipe de METROTEC ALGERIE, nous te rendons hommage à
           toi Monsieur ZOHEIR, et nous témoignons par l’exemplarité de ta
           carrière durant toutes les années passées à travailler à tes côtés, tu
           nous as laissés pour toujours le souvenir d’un homme qui a toujours
